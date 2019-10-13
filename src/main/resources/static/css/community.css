@@ -1,0 +1,210 @@
+body {
+    background-color: #efefef;
+}
+
+@font-face {
+    font-family: 'iconfont';  /* project id 1437324 */
+    src: url('//at.alicdn.com/t/font_1437324_f9azir0lmsv.eot');
+    src: url('//at.alicdn.com/t/font_1437324_f9azir0lmsv.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_1437324_f9azir0lmsv.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_1437324_f9azir0lmsv.woff') format('woff'),
+    url('//at.alicdn.com/t/font_1437324_f9azir0lmsv.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_1437324_f9azir0lmsv.svg#iconfont') format('svg');
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    line-height: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.main {
+    background: white;
+    margin: 30px;
+}
+
+.btn-publish {
+    float: right;
+    margin-bottom: 15px;
+}
+
+.media-object {
+    width: 38px;
+    height: 38px;
+}
+
+.my-media-body-text {
+    vertical-align: middle;
+}
+
+.text-desc {
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}
+
+.my-badge{
+    margin-bottom: 2%;
+}
+
+.profile .section {
+    margin-top: 15px;
+}
+
+.question-tag{
+    margin-right: 5px;
+}
+
+.publish-tag-tab{
+    width: 50%;
+    background-color: #fff;
+    display: none;
+    margin-top: 10px;
+    position: absolute;
+    padding: 15px;
+    z-index: 2;
+    margin-bottom: 0;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    box-shadow: 0px 6px 12px 0px rgba(0,0,0,0.18);
+    box-sizing: border-box;
+}
+
+.publish-tag-tab .label-info{
+    margin: 5px 5px;
+    white-space: normal;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.question-related{
+    padding-left: 0;
+    list-style: none;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+.question-related li a{
+    color: #155faa;
+}
+
+.question-related li a:hover{
+    text-decoration: none;
+    color: #499ef3;
+}
+
+.community-menu {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 15px;
+}
+
+.community-menu:hover {
+    text-decoration: none;
+}
+
+.community-menu span {
+    line-height: 16px;
+    position: absolute;
+}
+
+.jumbotron {
+    margin: 50px;
+}
+
+.comment {
+    margin: 10px 0;
+}
+
+.btn-comment {
+    float: right;
+    margin-bottom: 10px;
+}
+
+.comments {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.sub-comments {
+    margin: 10px 0 15px 0;
+    border: 1px solid #eee;
+    padding-top: 15px;
+    border-radius: 5px;
+}
+
+.sub-comments .btn {
+    margin: 10px 0;
+}
+
+.comment-sp {
+    margin-top: 0;
+}
+
+.menu {
+    color: #999;
+    margin-top: 5px;
+}
+
+.operate {
+    display: inline-block;
+    float: left;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    line-height: 28px;
+    text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.operate:hover{
+    background-color: #499ef3;
+}
+
+.span-comment-right{
+    margin-left: 5px;
+}
+
+.second-date-style{
+    color: #999;
+}
+
+.menu .icon {
+    background: 0 0;
+    vertical-align: -2px;
+    box-sizing:border-box;
+    height:28px;
+    line-height:28px;
+    padding: 0 10px;
+    text-decoration: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #999;
+}
+
+.menu .icon:hover {
+    color: white;
+}
+
+.menu .active {
+    background-color: #499ef3;
+}
+
+.menu .active a {
+    color: white;
+}
+
+.comment-num{
+    left: -.2em;
+    bottom: .20em;
+    font-size: 1px;
+}
+
