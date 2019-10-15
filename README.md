@@ -1,5 +1,47 @@
 ## 码匠社区
 
+## 部署
+### 环境
+Ubuntu 18.04.1 LTS (GNU/Linux 4.15.0-29-generic x86_64)
+#### 配置
+(1)更新系统
+```bash
+$ sudo apt-get install yum
+```
+(2)安装必备的编译环境:  
+Ubuntu缺省情况下,并没有提供C/C++的编译环境,因此还需要手动安装。      
+如果单独安装gcc以及g++比较麻烦,但是,
+为了能够编译Ubuntu的内核,
+Ubuntu提供了一个build-essential软件包。  
+(注意：现在Ubuntu默认是自带build-essential 的)   
+
+查看该软件包的依赖关系,可以看到以下内容:
+```bash
+$ apt-cache depends build-essential
+build-essential
+依赖:libc6-dev    
+依赖: gcc     
+依赖: g++    
+依赖: make   
+依赖: dpkg-dev
+```
+(3)安装yum工具
+安装命令：
+```bash
+$ sudo apt-get install yum
+```
+### 依赖
+- Git
+- JDK
+- Maven
+- MySQL
+### 步骤
+- apt-get install git
+- cd ..
+- mkdir Ap
+- cd App
+- 
+
 ## 资料
 [Spring 文档](https://spring.io/guides)   
 [Spring Web文档](https://spring.io/guides/gs/serving-web-content/)  

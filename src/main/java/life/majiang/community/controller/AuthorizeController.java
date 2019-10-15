@@ -6,6 +6,7 @@ import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.User;
 import life.majiang.community.provider.GitHubProvider;
 import life.majiang.community.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.h2.index.Index;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +26,7 @@ import java.util.UUID;
  * @version:1.0
  */
 @Controller
+@Slf4j
 public class AuthorizeController {
 
     @Autowired
@@ -64,6 +66,7 @@ public class AuthorizeController {
             response.addCookie(new Cookie("token",token));
             return "redirect:/";
         }else {
+            log.error("callback get github error, {}", gitHubUser);
             //登陆失败，重新登陆
             return "redirect:/";
         }
