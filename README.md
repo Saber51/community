@@ -45,7 +45,7 @@ $ sudo apt-get install yum
 - mvn -v
 - mvn compile package
 - more src/main/resources/application.properties
-- cp src/main/resources/application.properties src/main/resources/application-production.properties
+- cp -i src/main/resources/application.properties src/main/resources/application-production.properties
 - vim src/main/resources/application-production.properties
 - mvn package
 - java -jar -Dspring.profiles.active=production target/community-0.0.1-SNAPSHOT.jar
