@@ -40,7 +40,26 @@ $ sudo apt-get install yum
 - cd ..
 - mkdir Ap
 - cd App
-- 
+- git clone https://github.com/Saber51/community.git
+- apt install maven
+- mvn -v
+- mvn compile package
+- more src/main/resources/application.properties
+- cp src/main/resources/application.properties src/main/resources/application-production.properties
+- vim src/main/resources/application-production.properties
+- mvn package
+- java -jar -Dspring.profiles.active=production target/community-0.0.1-SNAPSHOT.jar
+- ps -aux | grep java
+- git pull
+
+### 对象存储参数
+#### UCloud云对象存储参数
+- ucloud.ufile.public-key=TOKEN_f465454a-f3ab-4c9b-91a5-c7babf59cc38
+- ucloud.ufile.private-key=18977163-f21e-4deb-a2e3-9bfa0b888ba5
+- ucloud.ufile.bucket-name=mawen
+- ucloud.ufile.region=cn-bj
+- ucloud.ufile.suffix=ufileos.com
+- ucloud.ufile.expires=315360000
 
 ## 资料
 [Spring 文档](https://spring.io/guides)   
@@ -85,4 +104,8 @@ CREATE TABLE USER
 ```bash
 mvn flyway:migrate
 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+```
+修复因为更改已存在的migration脚本，而出现的版本不一致冲突
+```bash
+mvn flyway:repair
 ```
