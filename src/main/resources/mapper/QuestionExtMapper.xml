@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="life.majiang.community.mapper.QuestionExtMapper">
   <resultMap id="BaseResultMap" type="life.majiang.community.model.Question">
-    <id column="ID" jdbcType="INTEGER" property="id" />
+    <id column="ID" jdbcType="BIGINT" property="id" />
     <result column="TITLE" jdbcType="VARCHAR" property="title" />
     <result column="GMT_CREATE" jdbcType="BIGINT" property="gmtCreate" />
     <result column="GMT_MODIFIED" jdbcType="BIGINT" property="gmtModified" />
-    <result column="CREATOR" jdbcType="INTEGER" property="creator" />
+    <result column="CREATOR" jdbcType="BIGINT" property="creator" />
     <result column="COMMENT_COUNT" jdbcType="INTEGER" property="commentCount" />
     <result column="VIEW_COUNT" jdbcType="INTEGER" property="viewCount" />
     <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount" />
@@ -14,20 +14,42 @@
   </resultMap>
 
   <update id="incView" parameterType="life.majiang.community.model.Question">
-    update QUESTION
-    set
+    UPDATE QUESTION
+    SET
     VIEW_COUNT = VIEW_COUNT + #{viewCount,jdbcType=INTEGER}
     WHERE ID = #{id}
   </update>
 
   <update id="incCommentCount" parameterType="life.majiang.community.model.Question">
-    update QUESTION
-    set
+    UPDATE QUESTION
+    SET
     COMMENT_COUNT = COMMENT_COUNT + #{commentCount,jdbcType=INTEGER}
     WHERE ID = #{id}
   </update>
 
-  <select id="selectRelated" parameterType="life.majiang.community.model.Question" resultMap="BaseResultMap">
-    select * from QUESTION WHERE ID != #{id} AND TAG regexp #{tag}
+  <select id="selectRelated" parameterType="life.majiang.community.model.Question"
+          resultMap="BaseResultMap">
+    SELECT * FROM QUESTION WHERE ID != #{id} AND TAG regexp #{tag}
+  </select>
+
+  <select id="countBySearch" parameterType="life.majiang.community.dto.QuestionQueryDTO"
+          resultType="java.lang.Integer">
+    SELECT count(*) FROM QUESTION
+    <where>
+      <if test="search != null">
+        AND TITLE regexp #{search}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectBySearch" parameterType="life.majiang.community.dto.QuestionQueryDTO"
+          resultMap="BaseResultMap">
+    SELECT * FROM QUESTION
+    <where>
+      <if test="search != null">
+        AND TITLE regexp #{search}
+      </if>
+    </where>
+    ORDER BY gmt_create DESC limit #{page},#{size}
   </select>
 </mapper>

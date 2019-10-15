@@ -1,5 +1,8 @@
 body {
+    margin: 0;
+    height: 100%;
     background-color: #efefef;
+    -webkit-font-smoothing: antialiased;
 }
 
 @font-face {
@@ -24,7 +27,15 @@ body {
 
 .main {
     background: white;
-    margin: 30px;
+    margin: 30px 30px 0 30px;
+}
+
+.auto-hidden{
+    overflow: hidden; /*自动隐藏文字*/
+    text-overflow: ellipsis;/*文字隐藏后添加省略号*/
+    white-space: nowrap;/*强制不换行*/
+    width: 20em;/*不允许出现半汉字截断*/
+    display: inline-block;
 }
 
 .btn-publish {
@@ -208,3 +219,29 @@ body {
     font-size: 1px;
 }
 
+.aw-footer-wrap{
+    font-size: 14px;
+    line-height: 160%;
+}
+
+.aw-footer{
+    padding: 30px 0 10px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.aw-footer-span{
+    font-family: candara,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif, -apple-system;
+    color: #666;
+}
+
+.aw-footer a{
+    cursor: pointer;
+    color: #155faa;
+    text-decoration: none;
+}
+
+.aw-footer a:hover {
+    text-decoration: none;
+    color: #499ef3;
+}
