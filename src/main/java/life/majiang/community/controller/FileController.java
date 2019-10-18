@@ -2,7 +2,6 @@ package life.majiang.community.controller;
 
 import life.majiang.community.dto.FileDTO;
 import life.majiang.community.provider.COSProvider;
-import life.majiang.community.provider.UCloudProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,8 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class FileController {
 
-    @Autowired
-    private UCloudProvider uCloudProvider;
     @Autowired
     private COSProvider cosProvider;
 

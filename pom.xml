@@ -18,6 +18,21 @@
         <java.version>11</java.version>
     </properties>
 
+    <profiles>
+        <!--本地开发环境-->
+        <profile>
+            <id>dev</id>
+            <properties>
+                <db.url>jdbc:h2:~/community</db.url>
+                <db.user>root</db.user>
+                <db.password>admin123</db.password>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
     <repositories>
         <repository>
             <id>bintray-qcloud-maven-repo</id>
@@ -37,6 +52,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>logback-classic</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j-over-slf4j</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -107,12 +132,6 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.ucloud.ufile</groupId>
-            <artifactId>ufile-client-java</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.qcloud</groupId>
             <artifactId>cos_api</artifactId>
             <version>5.6.8</version>
@@ -139,9 +158,9 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>6.0.3</version>
                 <configuration>
-                    <url>jdbc:mysql://localhost:3306/maven?useUnicode=true&amp;character_set_server=utf8mb4&amp;useSSL=false&amp;serverTimezone=GMT%2B8&amp;rewriteBatchedStatements=true</url>
-                    <user>root</user>
-                    <password>admin123</password>
+                    <url>${db.url}</url>
+                    <user>${db.user}</user>
+                    <password>${db.password}</password>
                 </configuration>
                 <dependencies>
                     <dependency>

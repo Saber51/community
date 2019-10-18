@@ -1,6 +1,6 @@
-create table question
+create table QUESTION
 (
-	id INT auto_increment,
+	id BIGINT auto_increment,
 	title VARCHAR(50),
 	description TEXT,
 	gmt_create BIGINT,
