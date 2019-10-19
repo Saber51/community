@@ -1,9 +1,9 @@
-CREATE TABLE USER(
-    id BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    account_id VARCHAR(100),
-    name VARCHAR(50),
-    token CHAR(36),
-    gmt_create BIGINT,
-    gmt_modified BIGINT
+create table user(
+    id bigint auto_increment primary key not null,
+    account_id varchar(100),
+    name varchar(50),
+    token char(36),
+    gmt_create bigint,
+    gmt_modified bigint
 );
 
