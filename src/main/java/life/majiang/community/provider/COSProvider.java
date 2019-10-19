@@ -115,7 +115,7 @@ public class COSProvider {
                 throw new CustomizeException(CustomizeErrorCode.FILE_UPLOAD_FAIL);
             }
         } catch (Exception e) {
-            log.error("upload error,{}", e.getMessage());
+            log.error("upload error,{}", fileName, e.getMessage());
             throw new CustomizeException(CustomizeErrorCode.FILE_UPLOAD_FAIL);
         } finally {
             cosclient.shutdown();

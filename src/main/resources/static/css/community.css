@@ -5,6 +5,10 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+.question-wechat{
+    width: 95%;
+}
+
 @font-face {
     font-family: 'iconfont';  /* project id 1437324 */
     src: url('//at.alicdn.com/t/font_1437324_f9azir0lmsv.eot');
@@ -28,6 +32,11 @@ body {
 .main {
     background: white;
     margin: 30px 30px 0 30px;
+}
+
+#input-btn{
+    margin: 30px 0 0 30px;
+    padding-right: 0;
 }
 
 .auto-hidden{

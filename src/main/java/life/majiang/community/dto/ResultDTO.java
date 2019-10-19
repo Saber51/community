@@ -4,8 +4,6 @@ import life.majiang.community.exception.CustomizeErrorCode;
 import life.majiang.community.exception.CustomizeException;
 import lombok.Data;
 
-import java.util.List;
-
 /**
  * @Auther:luanzhaofei@outlook.com
  * @Date:2019/9/24

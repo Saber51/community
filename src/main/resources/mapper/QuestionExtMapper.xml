@@ -29,15 +29,27 @@
 
   <select id="selectRelated" parameterType="life.majiang.community.model.Question"
           resultMap="BaseResultMap">
-    SELECT * FROM QUESTION WHERE ID != #{id} AND TAG regexp #{tag}
+    SELECT * FROM QUESTION
+    <where>
+      <if test="id != null">
+        AND ID != #{id}
+      </if>
+      <if test="tag != null and tag != ''">
+        AND TAG regexp #{tag}
+      </if>
+    </where>
+    ORDER BY GMT_CREATE DESC LIMIT 20
   </select>
 
   <select id="countBySearch" parameterType="life.majiang.community.dto.QuestionQueryDTO"
           resultType="java.lang.Integer">
     SELECT count(*) FROM QUESTION
     <where>
-      <if test="search != null">
+      <if test="search != null and search != ''">
         AND TITLE regexp #{search}
+      </if>
+      <if test="tag != null and tag != ''">
+        AND TAG regexp #{tag}
       </if>
     </where>
   </select>
@@ -46,8 +58,11 @@
           resultMap="BaseResultMap">
     SELECT * FROM QUESTION
     <where>
-      <if test="search != null">
+      <if test="search != null and search != ''">
         AND TITLE regexp #{search}
+      </if>
+      <if test="tag != null and tag != ''">
+        AND TAG regexp #{tag}
       </if>
     </where>
     ORDER BY gmt_create DESC limit #{page},#{size}

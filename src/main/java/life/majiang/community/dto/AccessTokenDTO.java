@@ -1,8 +1,6 @@
 package life.majiang.community.dto;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @Auther:luanzhaofei@outlook.com

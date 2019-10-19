@@ -2,18 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="${question.title}"></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/community.css">
-    <link rel="stylesheet" type="text/css" href="/css/editormd.preview.min.css">
-    <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
-    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
-    <script src="/js/moment.js" type="application/javascript"></script>
-    <script src="/js/community.js" type="application/javascript"></script>
-    <script src="/js/editormd.min.js" type="application/javascript"></script>
-    <script src="/js/lib/marked.min.js" type="application/javascript"></script>
-    <script src="/js/lib/prettify.min.js" type="application/javascript"></script>
+    <head th:insert="~{import :: head}"></head>
+    <head th:insert="~{import :: markdown}"></head>
 </head>
 <body>
     <div th:insert="~{navigation :: nav}"></div>
@@ -167,10 +157,7 @@
 
                 <!-- 微信号 -->
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h4>关注码匠笔记</h4>
-                    <img src="/images/wechat.png" class="img-thumbnail" title="本网站教程视频讲师的微信">
-                </div>
+                <div th:insert="~{side :: side}"></div>
 
                 <!-- 相关问题 -->
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

@@ -8,6 +8,7 @@ import life.majiang.community.exception.CustomizeErrorCode;
 import life.majiang.community.model.Comment;
 import life.majiang.community.model.User;
 import life.majiang.community.service.CommentService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import java.util.List;
  * @version:1.0
  */
 @Controller
+@Slf4j
 public class CommentController {
 
     @Autowired

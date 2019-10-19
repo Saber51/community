@@ -1,12 +1,33 @@
 ## 码匠社区
 
+## 快速运行
+1. 安装必备工具      
+JDK，Maven    
+2. 克隆代码到本地     
+3. 运行命令创建数据库脚本       
+```sh
+mvn flyway:migrate
+```
+4. 运行打包命令
+```sh
+mvn package
+```
+5. 运行项目  
+```sh
+java -jar target/community-0.0.1-SNAPSHOT.jar
+```
+6. 访问项目
+```
+http://localhost:8887
+```
+
 ## 部署
 ### 环境
 Ubuntu 18.04.1 LTS (GNU/Linux 4.15.0-29-generic x86_64)
 #### 配置
 (1)更新系统
 ```bash
-$ sudo apt-get install yum
+$ sudo apt update
 ```
 (2)安装必备的编译环境:  
 Ubuntu缺省情况下,并没有提供C/C++的编译环境,因此还需要手动安装。      
@@ -38,12 +59,12 @@ $ sudo apt-get install yum
 ### 步骤
 - apt-get install git
 - cd ..
-- mkdir Ap
+- mkdir App
 - cd App
 - git clone https://github.com/Saber51/community.git
 - apt install maven
 - mvn -v
-- mvn compile package
+- mvn clean compile package
 - more src/main/resources/application.properties
 - cp -i src/main/resources/application.properties src/main/resources/application-production.properties
 - vim src/main/resources/application-production.properties

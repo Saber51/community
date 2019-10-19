@@ -1,7 +1,5 @@
 package life.majiang.community.exception;
 
-import lombok.Getter;
-
 /**
  * @Auther:luanzhaofei@outlook.com
  * @Date:2019/9/24
@@ -22,6 +20,8 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     FILE_UPLOAD_FAIL(2010, "图片上传失败"),
     TEMPKEY_GET_FAIL(2011, "临时密钥获取失败"),
     FILE_DEL_FAIL(2012, "删除临时文件失败"),
+    INVALID_INPUT(2013, "非法输入"),
+    INVALID_OPERATION(2014, "兄弟，是不是走错房间了？"),
     ;
 
     @Override

@@ -2,12 +2,10 @@ package life.majiang.community.controller;
 
 import life.majiang.community.dto.AccessTokenDTO;
 import life.majiang.community.dto.GitHubUser;
-import life.majiang.community.mapper.UserMapper;
 import life.majiang.community.model.User;
 import life.majiang.community.provider.GitHubProvider;
 import life.majiang.community.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.h2.index.Index;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -61,12 +59,15 @@ public class AuthorizeController {
             user.setName(gitHubUser.getName());
             user.setAccountId(String.valueOf(gitHubUser.getId()));
             user.setAvatarUrl(gitHubUser.getAvatarUrl());
+            user.setBio(gitHubUser.getBio());
             userService.createOrUpdate(user);
             //登陆成功，写cookie和session
-            response.addCookie(new Cookie("token",token));
+            Cookie cookie = new Cookie("token", token);
+            cookie.setMaxAge(60 * 60 * 24 * 30 * 6);
+            response.addCookie(cookie);
             return "redirect:/";
         }else {
-            log.error("callback get github error, {}", gitHubUser);
+            log.error("callback get github error,{}", gitHubUser);
             //登陆失败，重新登陆
             return "redirect:/";
         }
