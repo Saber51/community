@@ -51,6 +51,13 @@ build-essential
 ```bash
 $ sudo apt-get install yum
 ```
+ ### Ubuntu jar包运行
+- 方法一：java -jar jar包名   (这样ssh窗口被锁定，直接关闭窗口，ctrl+c打断程序运行)     
+- 方法二：java -jar jar包名  &   (&表示在后台运行，ssh窗口不被锁定，但窗口关闭程序终止运行)        
+- 方法三： nohup java -jar jar包名 &  
+（关闭窗口，用户退出登录程序仍然运行，但执行nohup命令时，缺省情况下输出作业被重定向到nohup.out文件中，除非指定文件位置）
+- 方法四: nohup java -jar jar包名 & >a.txt          
+
 ### 依赖
 - Git
 - JDK
