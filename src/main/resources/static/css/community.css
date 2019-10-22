@@ -1,8 +1,17 @@
 body {
     margin: 0;
     height: 100%;
-    background-color: #efefef;
+    background: url(../images/bg.jpg) repeat;
     -webkit-font-smoothing: antialiased;
+}
+
+a:hover{
+    text-decoration-line: none;
+    color: #499ef3;
+}
+
+.side {
+    margin: 5px 0;
 }
 
 .question-wechat {
@@ -11,12 +20,12 @@ body {
 
 @font-face {
     font-family: 'iconfont';  /* project id 1437324 */
-    src: url('//at.alicdn.com/t/font_1437324_f9azir0lmsv.eot');
-    src: url('//at.alicdn.com/t/font_1437324_f9azir0lmsv.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_1437324_f9azir0lmsv.woff2') format('woff2'),
-    url('//at.alicdn.com/t/font_1437324_f9azir0lmsv.woff') format('woff'),
-    url('//at.alicdn.com/t/font_1437324_f9azir0lmsv.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_1437324_f9azir0lmsv.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_1437324_wo5lpk1x89c.eot');
+    src: url('//at.alicdn.com/t/font_1437324_wo5lpk1x89c.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_1437324_wo5lpk1x89c.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_1437324_wo5lpk1x89c.woff') format('woff'),
+    url('//at.alicdn.com/t/font_1437324_wo5lpk1x89c.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_1437324_wo5lpk1x89c.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -29,9 +38,19 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-title-main{
+    font-size: 20px;
+    line-height: 20px;
+}
+
+.icon-main{
+    font-size: 20px;
+    line-height: 20px;
+}
+
 .main {
     background: white;
-    margin: 30px 30px 0 30px;
+    margin-top: 30px;
 }
 
 #input-btn {
@@ -45,6 +64,45 @@ body {
     white-space: nowrap; /*强制不换行*/
     width: 20em; /*不允许出现半汉字截断*/
     display: inline-block;
+}
+
+.hot-tag-head h4 {
+    margin-top: 0;
+}
+
+.tag-label{
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+.tag-label p{
+    margin: 0;
+    color: #999;
+}
+
+.community-tag:hover {
+    background-color: #339dff;
+    color: #fff !important;
+}
+
+.community-tag {
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    line-height: 16px;
+    padding: 2px 5px;
+    background-color: #99cfff;
+    font-size: 12px;
+    color: #fff !important;
+    border-radius: 4px;
+}
+
+.tag-prompt{
+    font-family: candara,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif, -apple-system;
+    -webkit-font-smoothing: antialiased;
 }
 
 .btn-publish {
@@ -80,7 +138,7 @@ body {
 }
 
 .publish-tag-tab {
-    width: 50%;
+    width: 58%;
     background-color: #fff;
     display: none;
     margin-top: 10px;
@@ -108,23 +166,20 @@ body {
     line-height: 20px;
 }
 
-.question-related li a {
-    color: #155faa;
+.question-related dl{
+    height: auto;
+    overflow: hidden;
+    margin: 10px 0;
 }
 
-.question-related li a:hover {
-    text-decoration: none;
-    color: #499ef3;
+.question-related li a {
+    color: #155faa;
 }
 
 .community-menu {
     font-size: 13px;
     color: #999;
     margin-bottom: 15px;
-}
-
-.community-menu:hover {
-    text-decoration: none;
 }
 
 .community-menu span {
@@ -248,11 +303,6 @@ body {
     cursor: pointer;
     color: #155faa;
     text-decoration: none;
-}
-
-.aw-footer a:hover {
-    text-decoration: none;
-    color: #499ef3;
 }
 
 .red {

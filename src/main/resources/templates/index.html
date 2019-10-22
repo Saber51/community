@@ -14,11 +14,15 @@
     }
 </script>
 <body>
+<div th:insert="~{googleTagManager :: google}"></div>
 <div th:insert="~{navigation :: nav}"></div>
-<div class="container-fluid main">
+<div class="container main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h3><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h3>
+            <h3 class="icon-title-main">
+                <span class="iconfont icon-main" aria-hidden="true">&#xe7eb;</span>
+                发现
+            </h3>
             <hr>
             <ul class="nav nav-tabs">
                 <li role="presentation" th:class="${sort == 'new' || sort == '' ? 'active':''}">
@@ -73,12 +77,14 @@
                         </a>
                     </li>
                     <li th:if="${pagination.showNext}">
-                        <a th:href="@{/(page=${pagination.page + 1},search=${search},tag=${tag},sort=${sort})}" aria-label="Next">
+                        <a th:href="@{/(page=${pagination.page + 1},search=${search},tag=${tag},sort=${sort})}"
+                           aria-label="Next">
                             <span aria-hidden="true">&rsaquo;</span>
                         </a>
                     </li>
                     <li th:if="${pagination.showEndPage}">
-                        <a th:href="@{/(page=${pagination.totalPage},search=${search},tag=${tag},sort=${sort})}" aria-label="Next">
+                        <a th:href="@{/(page=${pagination.totalPage},search=${search},tag=${tag},sort=${sort})}"
+                           aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -86,17 +92,32 @@
             </nav>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div th:insert="~{notice :: notice}"></div>
             <!-- 微信号 -->
             <div th:insert="~{side :: side}"></div>
             <!-- 热门标签 -->
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <h4>热门标签</h4>
-                <ul class="question-related">
-                    <li th:each="tag : ${tags}">
-                        <a th:href="@{/(page=1,search=${search},tag=${tag},sort=${sort})}" th:text="${tag}"></a>
-                    </li>
-                </ul>
+                <div class="hot-tag-head">
+                    <h4>热门标签</h4>
+                </div>
+                <div class="question-related" th:each="tag : ${tags}">
+                    <dl class="tag-label">
+                        <dd class="pull-left">
+                            <p class="clearfix">
+                                <span>
+                                    <a class="community-tag" th:href="@{/(page=1,search=${search},tag=${tag},sort=${sort})}"
+                                           th:text="${tag}">
+                                    </a>
+                                </span>
+                            </p>
+                            <p class="tag-prompt">
+                                <b th:text="${tagQuestions.get(tag)}"></b>个问题,
+                                <b th:text="${tagComments.get(tag)}"></b>个回复
+                            </p>
+                        </dd>
+                    </dl>
+                </div>
             </div>
         </div>
     </div>

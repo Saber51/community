@@ -16,15 +16,15 @@
   <update id="incView" parameterType="life.majiang.community.model.Question">
     UPDATE QUESTION
     SET
-    VIEW_COUNT = VIEW_COUNT + #{viewCount,jdbcType=INTEGER}
-    WHERE ID = #{id}
+    view_count = view_count + #{viewCount,jdbcType=INTEGER}
+    WHERE id = #{id}
   </update>
 
   <update id="incCommentCount" parameterType="life.majiang.community.model.Question">
     UPDATE QUESTION
     SET
-    COMMENT_COUNT = COMMENT_COUNT + #{commentCount,jdbcType=INTEGER}
-    WHERE ID = #{id}
+    comment_count = comment_count + #{commentCount,jdbcType=INTEGER}
+    WHERE id = #{id}
   </update>
 
   <select id="selectRelated" parameterType="life.majiang.community.model.Question"
@@ -32,30 +32,30 @@
     SELECT * FROM QUESTION
     <where>
       <if test="id != null">
-        AND ID != #{id}
+        AND id != #{id}
       </if>
       <if test="tag != null and tag != ''">
-        AND TAG regexp #{tag}
+        AND tag REGEXP #{tag}
       </if>
     </where>
-    ORDER BY GMT_CREATE DESC LIMIT 20
+    ORDER BY gmt_create DESC LIMIT 20
   </select>
 
   <select id="countBySearch" parameterType="life.majiang.community.dto.QuestionQueryDTO"
           resultType="java.lang.Integer">
-    SELECT count(*) FROM QUESTION
+    SELECT COUNT(*) FROM QUESTION
     <where>
       <if test="search != null and search != ''">
-        AND TITLE regexp #{search}
+        AND title REGEXP #{search}
       </if>
       <if test="tag != null and tag != ''">
-        AND TAG regexp #{tag}
+        AND FIND_IN_SET(#{tag}, tag)!=0
       </if>
       <if test="sort != null and sort != '' and sort == 'no'">
-        and comment_count = 0
+        AND comment_count = 0
       </if>
       <if test="time != null and time != ''">
-        and gmt_create > #{time}
+        AND gmt_create > #{time}
       </if>
     </where>
   </select>
@@ -65,30 +65,30 @@
     SELECT * FROM QUESTION
     <where>
       <if test="search != null and search != ''">
-        AND TITLE regexp #{search}
+        AND title REGEXP #{search}
       </if>
       <if test="tag != null and tag != ''">
-        AND TAG regexp #{tag}
+        AND FIND_IN_SET(#{tag}, tag)!=0
       </if>
       <if test="sort != null and sort != '' and sort == 'no'">
-        and comment_count = 0
+        AND comment_count = 0
       </if>
       <if test="time != null and time != ''">
-        and gmt_create > #{time}
+        AND gmt_create > #{time}
       </if>
     </where>
     <if test="sort == null or sort == ''">
-      order by gmt_create desc
+      ORDER BY gmt_create DESC
     </if>
     <if test="sort != null and sort != '' and sort == 'new'">
-      order by gmt_create desc
+      ORDER BY gmt_create DESC
     </if>
     <if test="sort != null and sort != '' and sort == 'no'">
-      order by gmt_create desc
+      ORDER BY gmt_create DESC
     </if>
     <if test="sort != null and sort != '' and (sort == 'hot' || sort == 'hot7' || sort == 'hot30')">
-      order by comment_count desc
+      ORDER BY comment_count DESC
     </if>
-    limit #{page},#{size}
+    LIMIT #{page},#{size}
   </select>
 </mapper>

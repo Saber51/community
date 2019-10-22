@@ -125,15 +125,26 @@ function showSelectTag() {
 }
 
 function selectTag(e) {
-    if (true){
-        var value = e.getAttribute("data-tag");
-        var previous = $("#tag").val();
-        if (previous.indexOf(value) == -1) {
-            if (previous) {
-                $("#tag").val(previous + ',' + value);
-            } else {
-                $("#tag").val(value);
-            }
+    //定义开关
+    var flag=true;
+    //页面输入的标签
+    var value=e.getAttribute("data-tag");
+    //输入框中的标签
+    var previous=$("#tag").val();
+    //将输入框中的标签按,分割得到标签数组
+    var psplits=previous.split(",");
+    //循环数组与输入的标签值进行比较
+    for(var i=0;i<psplits.length;i++){
+        if(psplits[i]==value){
+            flag=false;
+        }
+    }
+    //如果没有重复元素的话,再添加
+    if(flag){
+        if(previous){
+            $("#tag").val(previous+','+value);
+        }else{
+            $("#tag").val(value);
         }
     }
 }

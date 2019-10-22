@@ -5,8 +5,9 @@
     <head th:insert="~{import :: head}"></head>
 </head>
 <body>
+    <div th:insert="~{googleTagManager :: google}"></div>
     <div th:insert="~{navigation :: nav}"></div>
-    <div class="container-fluid main profile">
+    <div class="container main profile">
         <div class="row">
             <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                 <h2><span th:text="${sectionName}"></span></h2>

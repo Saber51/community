@@ -37,7 +37,9 @@ public class HotTagTasks {
         log.info("hotTagSchedule start {}", new Date());
         List<Question> list = new ArrayList<>();
 
-        Map<String,Integer> priorities = new HashMap<>();
+        Map<String, Integer> priorities = new HashMap<>();
+        Map<String, Integer> tagQuestionCache = new HashMap<>();
+        Map<String, Integer> tagCommentCache = new HashMap<>();
         while (offset == 0 || list.size() == limit) {
             list = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, limit));
             for (Question question : list) {
@@ -46,14 +48,26 @@ public class HotTagTasks {
                     Integer priority = priorities.get(tag);
                     if (priority != null) {
                         priorities.put(tag, priority + 5 + question.getCommentCount());
-                    }else {
+                    } else {
                         priorities.put(tag, 5 + question.getCommentCount());
+                    }
+                    Integer tagQuestion=tagQuestionCache.get(tag);
+                    if(tagQuestion!=null){
+                        tagQuestionCache.put(tag,++tagQuestion);
+                    }else{
+                        tagQuestionCache.put(tag,1);
+                    }
+                    Integer tagReply=tagCommentCache.get(tag);
+                    if( tagReply!=null){
+                        tagCommentCache.put(tag,tagReply+question.getCommentCount());
+                    }else{
+                        tagCommentCache.put(tag,question.getCommentCount());
                     }
                 }
             }
             offset += limit;
         }
-        hotTagCache.updateTags(priorities);
+        hotTagCache.updateTags(priorities, tagCommentCache, tagQuestionCache);
         log.info("hotTagSchedule stop {}", new Date());
 
     }

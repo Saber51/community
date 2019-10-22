@@ -41,6 +41,8 @@ public class IndexController {
         model.addAttribute("tags", tags);
         model.addAttribute("tag", tag);
         model.addAttribute("sort", sort);
+        model.addAttribute("tagQuestions",hotTagCache.getTagQuestions());
+        model.addAttribute("tagComments", hotTagCache.getTagComments());
         return "index";
     }
 

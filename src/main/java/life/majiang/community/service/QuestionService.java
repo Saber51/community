@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 /**
@@ -55,11 +57,9 @@ public class QuestionService {
 
         PaginationDTO paginationDTO = new PaginationDTO();
 
-        Integer totalPage;
-
         QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
         questionQueryDTO.setSearch(search);
-        if(StringUtils.isNotBlank(tag)){
+        if (StringUtils.isNotBlank(tag)) {
             tag = tag.replace("+", "").replace("*", "").replace("?", "");
             questionQueryDTO.setTag(tag);
         }
@@ -78,7 +78,29 @@ public class QuestionService {
         }
 
         Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
+        System.out.println(totalCount);
 
+        page = getPage(page, size, paginationDTO, totalCount);
+
+        //修复分页逻辑
+        Integer offset = page < 1 ? 0 : size * (page - 1);
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
+        CopyOnWriteArrayList<Question> cowQuestions = new CopyOnWriteArrayList<>(questions);
+        if (tag != null) {
+            for (Question question : cowQuestions) {
+                String[] tags = StringUtils.split(question.getTag(), ",");
+                if (!Arrays.asList(tags).contains(tag)) {
+                    cowQuestions.remove(question);
+                }
+            }
+        }
+        return getPaginationDTO(paginationDTO, cowQuestions);
+    }
+
+    static Integer getPage(Integer page, Integer size, PaginationDTO paginationDTO, Integer totalCount) {
+        Integer totalPage;
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
         } else {
@@ -94,14 +116,10 @@ public class QuestionService {
         }
 
         paginationDTO.setPagination(totalPage, page);
+        return page;
+    }
 
-		//修复分页逻辑
-        Integer offset = page < 1 ? 0 : size * (page - 1);
-        QuestionExample questionExample = new QuestionExample();
-        questionExample.setOrderByClause("gmt_create desc");
-        questionQueryDTO.setSize(size);
-        questionQueryDTO.setPage(offset);
-        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
+    private PaginationDTO getPaginationDTO(PaginationDTO paginationDTO, List<Question> questions) {
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
         for (Question question : questions) {
@@ -125,39 +143,14 @@ public class QuestionService {
         questionExample.createCriteria().andCreatorEqualTo(userId);
         Integer totalCount = (int) questionMapper.countByExample(questionExample);
 
-        if (totalCount % size == 0) {
-            totalPage = totalCount / size;
-        } else {
-            totalPage = totalCount / size + 1;
-        }
-
-        if (page < 1) {
-            page = 1;
-        }
-
-        if (page > totalPage) {
-            page = totalPage;
-        }
-
-        paginationDTO.setPagination(totalPage, page);
+        page = getPage(page, size, paginationDTO, totalCount);
 
         //size*(page-1)
         Integer offset = size * (page - 1);
         QuestionExample example = new QuestionExample();
         example.createCriteria().andCreatorEqualTo(userId);
         List<Question> questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
-        List<QuestionDTO> questionDTOList = new ArrayList<>();
-
-        for (Question question : questions) {
-            User user = userMapper.selectByPrimaryKey(question.getCreator());
-            QuestionDTO questionDTO = new QuestionDTO();
-            BeanUtils.copyProperties(question, questionDTO);
-            questionDTO.setUser(user);
-            questionDTOList.add(questionDTO);
-        }
-
-        paginationDTO.setData(questionDTOList);
-        return paginationDTO;
+        return getPaginationDTO(paginationDTO, questions);
     }
 
     public QuestionDTO getById(Long id) {
@@ -231,12 +224,39 @@ public class QuestionService {
         question.setTag(regexpTag);
 
         List<Question> questions = questionExtMapper.selectRelated(question);
-        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
-            QuestionDTO questionDTO = new QuestionDTO();
-            BeanUtils.copyProperties(q, questionDTO);
-            return questionDTO;
-        }).collect(Collectors.toList());
+        if (questions != null) {
+            List<QuestionDTO> questionDTOS = new ArrayList<>();
+            String[] localTags = StringUtils.split(regexpTag, "|");
+            for (int i = questions.size() - 1; i >= 0; i--) {
+                Question temp = questions.get(i);
+                String[] dbTags = StringUtils.split(temp.getTag(), ",");
+                if (Collections.disjoint(Arrays.asList(dbTags), Arrays.asList(localTags))) {
+                    questions.remove(temp);
+                }else {
+                    QuestionDTO questionDTO = new QuestionDTO();
+                    BeanUtils.copyProperties(temp, questionDTO);
+                    questionDTOS.add(questionDTO);
+                }
+            }
+            return questionDTOS;
+        }else {
+            return new ArrayList<>();
+        }
+//        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+//            QuestionDTO questionDTO = new QuestionDTO();
+//            BeanUtils.copyProperties(q, questionDTO);
+//            return questionDTO;
+//        }).collect(Collectors.toList());
+//
+//        if (questionDTOS != null) {
+//            String[] localTags = StringUtils.split(regexpTag, "|");
+//            for (QuestionDTO questionDTO: questionDTOS) {
+//                String[] dbTags = StringUtils.split(questionDTO.getTag(), ",");
+//                if (Collections.disjoint(Arrays.asList(dbTags),Arrays.asList(localTags))) {
+//                    questionDTOS.remove(questionDTO.getId());
+//                }
+//            }
+//        }
 
-        return questionDTOS;
     }
 }

@@ -40,21 +40,7 @@ public class NotificationService {
         notificationExample.createCriteria().andReceiverEqualTo(userId);
         Integer totalCount = (int) notificationMapper.countByExample(notificationExample);
 
-        if (totalCount % size == 0) {
-            totalPage = totalCount / size;
-        } else {
-            totalPage = totalCount / size + 1;
-        }
-
-        if (page < 1) {
-            page = 1;
-        }
-
-        if (page > totalPage) {
-            page = totalPage;
-        }
-
-        paginationDTO.setPagination(totalPage, page);
+        page = QuestionService.getPage(page, size, paginationDTO, totalCount);
 
         //size*(page-1)
         Integer offset = size * (page - 1);

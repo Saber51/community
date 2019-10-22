@@ -3,7 +3,7 @@
 <body>
 <div th:fragment="nav">
     <nav class="navbar navbar-default">
-        <div class="container-fluid">
+        <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                         data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -52,7 +52,7 @@
                     </li>
                     <li th:if="${session.user == null}">
                         <a th:href="@{https://github.com/login/oauth/authorize(
-                                client_id='027fe146dc10f0e16ca6',
+                                client_id=${#httpServletRequest.getServletContext().getAttribute('clientId')},
                                 redirect_uri=${#httpServletRequest.getServletContext().getAttribute('redirectUri')},
                                 scope='user',state=1)}">
                             登录

@@ -15,11 +15,12 @@ import java.util.*;
 @Component
 @Data
 public class HotTagCache {
-    private Map<String, Integer> tags = new HashMap<>();
+    private Map<String, Integer> tagQuestions = new HashMap<>();
+    private Map<String, Integer> tagComments = new HashMap<>();
     private List<String> hots = new ArrayList<>();
 
-    public void updateTags(Map<String, Integer> tags) {
-        int max = 10;
+    public void updateTags(Map<String, Integer> tags, Map<String, Integer> tagCommentCache, Map<String, Integer> tagQuestionCache) {
+        int max = 5;
         PriorityQueue<HotTagDTO> priorityQueue = new PriorityQueue<>(max);
 
         tags.forEach((name, priority) -> {
@@ -44,6 +45,8 @@ public class HotTagCache {
             sortedTags.add(0, poll.getName());
             poll = priorityQueue.poll();
         }
+        tagComments = tagCommentCache;
+        tagQuestions = tagQuestionCache;
         hots = sortedTags;
     }
 }
