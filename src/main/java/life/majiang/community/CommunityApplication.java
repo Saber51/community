@@ -5,6 +5,7 @@ import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
@@ -22,6 +23,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableScheduling
 public class CommunityApplication {
 
+    @Value("${http.port}")
+    private int httpPort;
+
     public static void main(String[] args) {
         SpringApplication.run(CommunityApplication.class, args);
     }
@@ -30,7 +34,7 @@ public class CommunityApplication {
     public Connector connector(){
         Connector connector=new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("http");
-        connector.setPort(80);
+        connector.setPort(httpPort);
         connector.setSecure(false);
         connector.setRedirectPort(443);
         return connector;
