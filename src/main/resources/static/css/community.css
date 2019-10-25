@@ -69,6 +69,10 @@ a:hover {
     margin-top: 0;
 }
 
+.hot-tag-body{
+    margin-bottom: 20px;
+}
+
 .tag-label {
     display: block;
     margin-block-start: 1em;
