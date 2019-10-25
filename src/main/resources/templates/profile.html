@@ -187,8 +187,8 @@
                                         <dl class="profile-select">
                                             <label for="distpicker">现居:</label>
                                             <div data-toggle="distpicker" class="form-inline" id="distpicker">
-                                                <input type="hidden" id="dbProvince" th:value="${user.location.split(' ')[0]}"/>
-                                                <input type="hidden" id="dbCity" th:value="${user.location.split(' ')[1]}"/>
+                                                <input type="hidden" id="dbProvince" th:value="${user.location!=null?user.location.split(' ')[0]:''}"/>
+                                                <input type="hidden" id="dbCity" th:value="${user.location!=null?user.location.split(' ')[1]:''}"/>
                                                 <select name="province" id="province" class="form-control"></select>
                                                 <select name="city" id="city" class="form-control"></select>
                                                 <script type="text/javascript">
