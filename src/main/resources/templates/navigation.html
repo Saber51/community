@@ -26,10 +26,12 @@
                                 'event_label': label,
                                 'transport_type': 'NAV'
                             })
-                        }
+                        };
                     </script>
-                    <li th:each="ad : ${#httpServletRequest.getServletContext().getAttribute('NAV')}">
-                        <a th:href="${ad.url}" th:text="${ad.title}" th:onclick="clickNav([[${ad.title}]]);"
+                    <li th:if="${#lists.size(#httpServletRequest.getServletContext().getAttribute('NAV')) != 0}"
+                            th:each="ad : ${#httpServletRequest.getServletContext().getAttribute('NAV')}">
+                        <a th:href="${ad.url}" th:text="${ad.title}"
+                           th:onclick="clickNav([[${ad.title}]])"
                            target="_blank"></a>
                     </li>
                 </ul>
