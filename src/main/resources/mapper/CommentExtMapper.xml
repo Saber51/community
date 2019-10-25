@@ -18,4 +18,16 @@
     COMMENT_COUNT = COMMENT_COUNT + #{commentCount,jdbcType=INTEGER}
     WHERE ID = #{id}
   </update>
+  <update id="incLikeCount" parameterType="life.majiang.community.model.Comment">
+    update COMMENT
+    set
+    LIKE_COUNT = LIKE_COUNT + #{likeCount,jdbcType=BIGINT}
+    WHERE ID = #{id}
+  </update>
+  <update id="cutLikeCount" parameterType="life.majiang.community.model.Comment">
+    update COMMENT
+    set
+    LIKE_COUNT = LIKE_COUNT - #{likeCount,jdbcType=BIGINT}
+    WHERE ID = #{id}
+  </update>
 </mapper>

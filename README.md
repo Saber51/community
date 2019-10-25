@@ -138,6 +138,17 @@ mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 mvn flyway:repair
 ```
 
+### 注意
+因为我使用了BootStrap日期选择器，而且想要回显所以
+在日期格式的字段上加 @DateTimeFormat(pattern="yyyy-MM-dd")
+然后使用th:value=${{user.birth}}的写法实现了回显
+```java
+public class User{
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date birth;
+}
+```
+
 ## 更新日志
 - 2019-10-18 修复 session 过期时间很短问题   
 - 2019-10-18 修复 JSONObject 类多引用路径的警告问题   
@@ -147,3 +158,6 @@ mvn flyway:repair
 - 2019-10-19 修复搜索输入 ? 号出现异常问题
 - 2019-10-19 修复图片大小限制和提问内容为空问题
 - 2019-10-19 添加动态导航栏
+- 2019-10-23 修复bug
+- 2019-10-24 添加个人主页
+- 2019-10-25 添加点赞功能

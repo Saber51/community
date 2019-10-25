@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${user.getName()}+'的个人主页'"></title>
+    <head th:insert="~{import :: head}"></head>
+</head>
+<body>
+<div th:insert="~{googleTagManager :: google}"></div>
+<div th:insert="~{navigation :: nav}"></div>
+<div class="container-fluid main profile">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h3 class="icon-title-main">
+                <i class="iconfont icon-main">&#xe6a2;</i>
+                <span th:text="${sectionName}"></span>
+            </h3>
+            <hr>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="media" th:each="question : ${pagination.data}">
+                    <div class="media-left">
+                        <img class="media-object img-rounded"
+                             th:src="${question.user.avatarUrl}">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
+                        </h4>
+                        <span class="text-desc">
+                            <span th:text="${question.commentCount}"></span> 个回复 •
+                            <span th:text="${question.viewCount}"></span> 次浏览 •
+                            <span th:text="${#dates.format(question.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li th:if="${pagination.showFirstPage}">
+                            <a th:href="@{'/userInfo/'+${id}(page=${1})}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li th:if="${pagination.showPrevious}">
+                            <a th:href="@{'/userInfo/'+${id}(page=${pagination.page - 1})}" aria-label="Previous">
+                                <span aria-hidden="true">&lsaquo;</span>
+                            </a>
+                        </li>
+                        <li th:each="page : ${pagination.pages}" th:class="${pagination.page == page}? 'active': ''">
+                            <a th:href="@{'/userInfo/'+${id}(page=${page})}" th:text="${page}">
+                            </a>
+                        </li>
+                        <li th:if="${pagination.showNext}">
+                            <a th:href="@{'/userInfo/'+${id}(page=${pagination.page + 1})}" aria-label="Next">
+                                <span aria-hidden="true">&rsaquo;</span>
+                            </a>
+                        </li>
+                        <li th:if="${pagination.showEndPage}">
+                            <a th:href="@{'/userInfo/'+${id}(page=${pagination.totalPage})}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="list-group user-info">
+                <div class="media">
+                    <div class="media-left">
+                        <img class="img-rounded" th:src="${user.getAvatarUrl()}" th:alt="${user.getName()}+'的头像'">
+                    </div>
+                    <div class="media-body">
+                        <h5 th:text="${user.getName()}"></h5>
+                        <p class="text-color-999" th:text="${user.getSex()}"></p>
+                        <p>
+                            <i class="iconfont">&#xe661;</i>
+                            <span th:text="${user.getLocation()}"></span><br>
+                            <i class="iconfont">&#xe61f;</i>
+                            <span th:text="${user.getCareer()}"></span>
+                        </p>
+                    </div>
+                </div>
+                <div class="list-group user-info-body">
+                    <i class="iconfont">&#xe65c;</i>
+                    邮箱: <br>
+                    <span th:text="${user.getEmail()}"></span><br><br>
+                    <i class="iconfont">&#xe630;</i>
+                    GitHub地址:<br>
+                    <a th:href="@{${user.getHtmlUrl()}}" th:text="${user.getHtmlUrl()}" target="_blank"></a><br><br>
+                    <i class="iconfont">&#xe60f;</i>
+                    个性签名: <br>
+                    <textarea class="col-lg-12 col-md-12 col-sm-12 col-xs-12" readonly="readonly" th:text="${user.getBio()}"></textarea>
+                    <i class="iconfont">&#xe657;</i>
+                    生日:<span th:text="${#dates.format(user.getBirth(),'yyyy-MM-dd')}"></span><br><br>
+                    <i class="iconfont">&#xe746;</i>
+                    Q&nbsp;&nbsp;Q:<span th:text="${user.getQq()}"></span><br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="~{footer :: foot}"></div>
+</body>
+</html>

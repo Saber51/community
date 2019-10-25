@@ -1,14 +1,14 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>发布 - 码匠社区</title>
+    <title>发布 - 码农之家</title>
     <head th:insert="~{import :: head}"></head>
     <head th:insert="~{import :: markdown}"></head>
 </head>
 <body>
     <div th:insert="~{googleTagManager :: google}"></div>
     <div th:insert="~{navigation :: nav}"></div>
-    <div class="container main">
+    <div class="container-fluid main">
         <div class="row" style="display: flex;align-items: stretch;">
             <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                 <div onclick="hideSelectTag()">
@@ -22,8 +22,8 @@
                     <input type="hidden" name="id" th:value="${id}">
                     <div class="form-group" onclick="hideSelectTag()">
                         <label for="title">问题标题（简单扼要）:</label>
-                        <input type="text" class="form-control" th:value="${title}" id="title" name="title"
-                               autocomplete="off" placeholder="问题标题...">
+                        <input type="text" class="form-control" maxlength="35" th:value="${title}" id="title" name="title"
+                               autocomplete="off" placeholder="问题标题..." required>
                     </div>
                     <div class="form-group">
                         <label for="tag">添加标签:</label>
@@ -31,7 +31,7 @@
                                autocomplete="off"
                                placeholder="输入标签，以‘,’分隔..."
                                onclick="showSelectTag()"
-                        >
+                               required>
                         <div id="select-tag" class="publish-tag-tab" style="z-index: 100;">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li role="presentation" th:each="selectCategory,selectCategoryStat: ${tags}"
@@ -57,7 +57,7 @@
                         <div class="editormd" id="question-editor">
                             <textarea name="description" id="description" th:text="${description}"
                                       style="display:none;"
-                                      cols="30" rows="10">
+                                      cols="30" rows="10" required>
                             </textarea>
                         </div>
                         <script type="text/javascript">
@@ -104,10 +104,23 @@
                 </form>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" onclick="hideSelectTag()">
-                <h3>问题发起指南</h3>
-                • 问题标题: 请用精简的语言描述您发布的问题，不超过25字<br>
-                • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料<br>
-                • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个表情不超过10个字<br>
+                <h4 style="margin-top: 25px;"><b>• 问题标题:</b></h4>
+                <p>
+                    请用<b style="color:red">精简</b>的语言描述您发布的问题，不超过<b style="color:red">25</b>字
+                </p>
+                <p></p>
+                <h4><b>• 选择标签:</b></h4>
+                <p>选择一个或者多个合适的标签，<b style="color:red">只能使用提供的标签</b></p>
+                <p></p>
+                <h4><b>• 问题补充:</b></h4>
+                <p>详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料： </p>
+                <li>服务器运行环境信息；</li>
+                <li>软件版本；</li>
+                <li>问题发生的上下文信息；</li>
+                <li>可以完整复现问题的代码（如可直接运行于 Kibana Console 的复现流程）；</li>
+                <li>补充完整的异常和错误信息；</li>
+                <li>注意阅读格式友好，代码和异常信息请用代码标签格式化张贴；</li>
+                <p></p>
             </div>
         </div>
     </div>

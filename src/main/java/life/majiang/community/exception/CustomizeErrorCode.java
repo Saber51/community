@@ -22,6 +22,8 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     FILE_DEL_FAIL(2012, "删除临时文件失败"),
     INVALID_INPUT(2013, "非法输入"),
     INVALID_OPERATION(2014, "兄弟，是不是走错房间了？"),
+    NOT_LIKE_COMMENT(2015, "你点赞的评论，走丢了！"),
+    NOT_LIKE_YOURSELF(2016, "给自己点赞很爽吧！"),
     ;
 
     @Override

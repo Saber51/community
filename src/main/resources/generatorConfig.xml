@@ -33,8 +33,8 @@
         <table tableName="question" domainObjectName="Question"/>
         <table tableName="comment" domainObjectName="Comment"/>
         <table tableName="notification" domainObjectName="Notification"/>
-        <table tableName="nav" domainObjectName="Nav"/>
         <table tableName="ad" domainObjectName="Ad"/>
+        <table tableName="liked" domainObjectName="Liked"/>
 
     </context>
 </generatorConfiguration>

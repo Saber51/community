@@ -1,31 +1,29 @@
 body {
     margin: 0;
     height: 100%;
+    font-family: candara,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif, -apple-system;
     background: url(../images/bg.jpg) repeat;
     -webkit-font-smoothing: antialiased;
+    color: #333;
 }
 
-a:hover{
+a:hover {
     text-decoration-line: none;
     color: #499ef3;
 }
 
-.side {
-    margin: 5px 0;
-}
-
-.question-wechat {
-    width: 95%;
+.side-hr {
+    padding: 0;
 }
 
 @font-face {
     font-family: 'iconfont';  /* project id 1437324 */
-    src: url('//at.alicdn.com/t/font_1437324_wo5lpk1x89c.eot');
-    src: url('//at.alicdn.com/t/font_1437324_wo5lpk1x89c.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_1437324_wo5lpk1x89c.woff2') format('woff2'),
-    url('//at.alicdn.com/t/font_1437324_wo5lpk1x89c.woff') format('woff'),
-    url('//at.alicdn.com/t/font_1437324_wo5lpk1x89c.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_1437324_wo5lpk1x89c.svg#iconfont') format('svg');
+    src: url('//at.alicdn.com/t/font_1437324_h4l4trwf32p.eot');
+    src: url('//at.alicdn.com/t/font_1437324_h4l4trwf32p.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_1437324_h4l4trwf32p.woff2') format('woff2'),
+    url('//at.alicdn.com/t/font_1437324_h4l4trwf32p.woff') format('woff'),
+    url('//at.alicdn.com/t/font_1437324_h4l4trwf32p.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_1437324_h4l4trwf32p.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -38,19 +36,20 @@ a:hover{
     -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-title-main{
+.icon-title-main {
     font-size: 20px;
     line-height: 20px;
 }
 
-.icon-main{
+.icon-main {
     font-size: 20px;
     line-height: 20px;
 }
 
 .main {
+    margin: 30px 2% 0 2%;
+    border-radius: 4px;
     background: white;
-    margin-top: 30px;
 }
 
 #input-btn {
@@ -70,7 +69,7 @@ a:hover{
     margin-top: 0;
 }
 
-.tag-label{
+.tag-label {
     display: block;
     margin-block-start: 1em;
     margin-block-end: 1em;
@@ -78,7 +77,7 @@ a:hover{
     margin-inline-end: 0px;
 }
 
-.tag-label p{
+.tag-label p {
     margin: 0;
     color: #999;
 }
@@ -100,8 +99,8 @@ a:hover{
     border-radius: 4px;
 }
 
-.tag-prompt{
-    font-family: candara,"Helvetica Neue",Helvetica,Arial,"PingFang SC","Hiragino Sans GB","WenQuanYi Micro Hei","Microsoft Yahei",sans-serif, -apple-system;
+.tag-prompt {
+    font-family: candara, "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "WenQuanYi Micro Hei", "Microsoft Yahei", sans-serif, -apple-system;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -129,8 +128,108 @@ a:hover{
     margin-bottom: 2%;
 }
 
+.user-info {
+    padding-left: 10px;
+    margin-top: 40px;
+}
+
+.user-profile-info {
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+}
+
+.user-info-body {
+    margin: 15px 0;
+    height: 400px;
+    padding-right: 5px;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .0);
+}
+
+.user-info-body textarea {
+    margin-bottom: 30px;
+    height: 100px;
+    resize: none;
+}
+
+.user-info .media-left {
+    vertical-align: middle;
+}
+
+.user-info .media-body h5 {
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.user-info .media-body p {
+    margin-bottom: 10px;
+    display: block;
+}
+
+.text-color-999 {
+    border-radius: 4px;
+    font-size: 14px;
+    color: #999;
+}
+
+.user-info img {
+    width: 100px;
+    height: 100px;
+}
+
+.btn-user {
+    border: none !important;
+    padding: 0 10px;
+    line-height: 24px;
+    font-weight: normal;
+    font-size: 12px;
+}
+
 .profile .section {
     margin-top: 15px;
+}
+
+.community-menu.profile-a {
+    display: inline-block;
+    width: 40px;
+    font-size: 12px;
+    position: relative;
+    bottom: -0.2em;
+    line-height: 12px;
+}
+
+.icon-profile {
+    position: relative;
+    bottom: 0.1em;
+}
+
+.profile-dl {
+    height: auto;
+    line-height: 25px;
+    overflow: hidden;
+    margin: 0;
+    padding-bottom: 5px;
+}
+
+.profile-dl dt, .profile-dl dd {
+    margin-right: 10px;
+    float: left;
+    line-height: 30px;
+}
+
+.profile-select label {
+    margin: 0;
+}
+
+.profile-select {
+    z-index: 1100;
+    margin-bottom: 0;
+}
+
+.profile-select .form-control{
+    margin-bottom: 15px;
 }
 
 .question-tag {
@@ -138,7 +237,7 @@ a:hover{
 }
 
 .publish-tag-tab {
-    width: 58%;
+    width: 50%;
     background-color: #fff;
     display: none;
     margin-top: 10px;
@@ -166,7 +265,7 @@ a:hover{
     line-height: 20px;
 }
 
-.question-related dl{
+.question-related dl {
     height: auto;
     overflow: hidden;
     margin: 10px 0;

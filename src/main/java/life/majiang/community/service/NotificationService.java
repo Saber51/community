@@ -14,6 +14,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +26,16 @@ import java.util.Objects;
  * @Description:life.majiang.community.service
  * @version:1.0
  */
+@Transactional
 @Service
 public class NotificationService {
 
     @Autowired
     private NotificationMapper notificationMapper;
 
+    @Transactional(readOnly = true)
     public PaginationDTO list(Long userId, Integer page, Integer size) {
         PaginationDTO<NotificationDTO> paginationDTO = new PaginationDTO<>();
-
-        Integer totalPage;
 
         NotificationExample notificationExample = new NotificationExample();
         notificationExample.createCriteria().andReceiverEqualTo(userId);
@@ -68,6 +69,7 @@ public class NotificationService {
         return paginationDTO;
     }
 
+    @Transactional(readOnly = true)
     public Long unreadCount(Long userId) {
         NotificationExample notificationExample = new NotificationExample();
         notificationExample.createCriteria()

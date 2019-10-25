@@ -5,6 +5,7 @@ import life.majiang.community.dto.QuestionDTO;
 import life.majiang.community.enums.CommentTypeEnum;
 import life.majiang.community.exception.CustomizeErrorCode;
 import life.majiang.community.exception.CustomizeException;
+import life.majiang.community.model.User;
 import life.majiang.community.service.CommentService;
 import life.majiang.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -32,8 +34,10 @@ public class QuestionController {
 
     @GetMapping("/question/{id}")
     public String question(@PathVariable(name = "id")String id,
+                           HttpServletRequest request,
                            Model model){
-        Long questionId = null;
+        User user = (User) request.getSession().getAttribute("user");
+        Long questionId;
         try {
             questionId = Long.parseLong(id);
         } catch (NumberFormatException e) {
@@ -41,7 +45,11 @@ public class QuestionController {
         }
         QuestionDTO questionDTO = questionService.getById(questionId);
         List<QuestionDTO> relatedQuestions = questionService.selectRelated(questionDTO);
-        List<CommentDTO> comments = commentService.listByTargetId(questionId, CommentTypeEnum.QUESTION);
+        Long userId = null;
+        if (user!=null){
+            userId = user.getId();
+        }
+        List<CommentDTO> comments = commentService.listByTargetId(questionId, CommentTypeEnum.QUESTION, userId);
         //累加阅读数
         questionService.incView(questionId);
         model.addAttribute("question",questionDTO);

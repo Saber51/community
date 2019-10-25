@@ -1,13 +1,62 @@
 /**
+ * 点赞
+ */
+function like(e) {
+    var commentId = e.getAttribute("data-id");
+    var status = e.getAttribute("data-status");
+    var subLike = $("#sub-like-"+commentId);
+    var spanLike = $("#span-like-"+commentId);
+    $.ajax({
+        type: "POST",
+        url: "/like",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "commentId": commentId,
+            "status": status
+        }),
+        success: function (response) {
+            if (response.code == 200) {
+                // var comment = jQuery.parseJSON(response);
+                var retStatus = response.data.likeStatus;
+                e.setAttribute("data-status", retStatus);
+                if (retStatus==1){
+                    spanLike.addClass("active");
+                }else {
+                    spanLike.removeClass("active");
+                }
+                console.log(response.data.likeCount);
+                subLike.text(response.data.likeCount);
+
+            } else {
+                if (response.code == 2003) {
+                    var isAccepted = confirm(response.message);
+                    if (isAccepted) {
+                        var clientId = e.getAttribute("client_id");
+                        window.open("https://github.com/login/oauth/authorize?client_id=" + clientId + "&redirect_uri=" + document.location.origin + "/callback&scope=user&state=1");
+                        window.localStorage.setItem("closable", true);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 4000);
+                    }
+                } else {
+                    alert(response.message);
+                }
+            }
+        },
+        dataType: "json"
+    });
+}
+/**
  * 提交回复
  */
-function post() {
+function post(e) {
     var questionId = $("#question_id").val();
     var content = $("#comment_content").val();
-    comment2target(questionId, 1, content);
+    var clientId = e.getAttribute("client_id");
+    comment2target(questionId, 1, content, clientId);
 }
 
-function comment2target(targetId, type, content) {
+function comment2target(targetId, type, content, clientId) {
     if (!content) {
         alert("不能回复空内容～～");
         return;
@@ -28,8 +77,12 @@ function comment2target(targetId, type, content) {
                 if (response.code == 2003) {
                     var isAccepted = confirm(response.message);
                     if (isAccepted) {
-                        window.open("https://github.com/login/oauth/authorize?client_id=2859958f9f059979ed3a&redirect_uri=" + document.location.origin + "/callback&scope=user&state=1");
+                        window.open("https://github.com/login/oauth/authorize?client_id="+clientId+"&redirect_uri=" + document.location.origin + "/callback&scope=user&state=1");
                         window.localStorage.setItem("closable", true);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 4000);
+
                     }
                 } else {
                     alert(response.message);
@@ -43,7 +96,8 @@ function comment2target(targetId, type, content) {
 function comment(e) {
     var commentId = e.getAttribute("data-id");
     var content = $("#input-" + commentId).val();
-    comment2target(commentId, 2, content);
+    var clientId = e.getAttribute("client_id");
+    comment2target(commentId, 2, content, clientId);
 }
 
 /**
@@ -148,3 +202,4 @@ function selectTag(e) {
         }
     }
 }
+

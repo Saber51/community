@@ -17,6 +17,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
  * @Description:life.majiang.community.service
  * @version:1.0
  */
+@Transactional
 @Service
 public class QuestionService {
 
@@ -43,6 +45,7 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
+    @Transactional(readOnly = true)
     public PaginationDTO list(String search, String tag, String sort, Integer page, Integer size) {
 
         if (StringUtils.isNotBlank(search)) {
@@ -78,7 +81,6 @@ public class QuestionService {
         }
 
         Integer totalCount = questionExtMapper.countBySearch(questionQueryDTO);
-        System.out.println(totalCount);
 
         page = getPage(page, size, paginationDTO, totalCount);
 
@@ -88,7 +90,7 @@ public class QuestionService {
         questionQueryDTO.setPage(offset);
         List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
         CopyOnWriteArrayList<Question> cowQuestions = new CopyOnWriteArrayList<>(questions);
-        if (tag != null) {
+        if (StringUtils.isNotBlank(tag)) {
             for (Question question : cowQuestions) {
                 String[] tags = StringUtils.split(question.getTag(), ",");
                 if (!Arrays.asList(tags).contains(tag)) {
@@ -134,10 +136,9 @@ public class QuestionService {
         return paginationDTO;
     }
 
+    @Transactional(readOnly = true)
     public PaginationDTO list(Long userId, Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
-
-        Integer totalPage;
 
         QuestionExample questionExample = new QuestionExample();
         questionExample.createCriteria().andCreatorEqualTo(userId);
@@ -153,6 +154,7 @@ public class QuestionService {
         return getPaginationDTO(paginationDTO, questions);
     }
 
+    @Transactional(readOnly = true)
     public QuestionDTO getById(Long id) {
 
         Question question = questionMapper.selectByPrimaryKey(id);
@@ -208,6 +210,7 @@ public class QuestionService {
         questionExtMapper.incView(question);
     }
 
+    @Transactional(readOnly = true)
     public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
         if (StringUtils.isBlank(queryDTO.getTag())) {
             return new ArrayList<>();
@@ -242,21 +245,5 @@ public class QuestionService {
         }else {
             return new ArrayList<>();
         }
-//        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
-//            QuestionDTO questionDTO = new QuestionDTO();
-//            BeanUtils.copyProperties(q, questionDTO);
-//            return questionDTO;
-//        }).collect(Collectors.toList());
-//
-//        if (questionDTOS != null) {
-//            String[] localTags = StringUtils.split(regexpTag, "|");
-//            for (QuestionDTO questionDTO: questionDTOS) {
-//                String[] dbTags = StringUtils.split(questionDTO.getTag(), ",");
-//                if (Collections.disjoint(Arrays.asList(dbTags),Arrays.asList(localTags))) {
-//                    questionDTOS.remove(questionDTO.getId());
-//                }
-//            }
-//        }
-
     }
 }

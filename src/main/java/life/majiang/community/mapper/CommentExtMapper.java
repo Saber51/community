@@ -4,4 +4,6 @@ import life.majiang.community.model.Comment;
 
 public interface CommentExtMapper {
     int incCommentCount(Comment comment);
+    int incLikeCount(Comment comment);
+    int cutLikeCount(Comment comment);
 }

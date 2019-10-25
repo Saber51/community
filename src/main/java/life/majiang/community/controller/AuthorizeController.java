@@ -6,6 +6,7 @@ import life.majiang.community.model.User;
 import life.majiang.community.provider.GitHubProvider;
 import life.majiang.community.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -56,10 +57,19 @@ public class AuthorizeController {
             User user = new User();
             String token = UUID.randomUUID().toString();
             user.setToken(token);
-            user.setName(gitHubUser.getName());
+            if (StringUtils.isNotBlank(gitHubUser.getName())) {
+                user.setName(gitHubUser.getName());
+            }
             user.setAccountId(String.valueOf(gitHubUser.getId()));
             user.setAvatarUrl(gitHubUser.getAvatarUrl());
-            user.setBio(gitHubUser.getBio());
+            if (StringUtils.isNotBlank(gitHubUser.getBio())) {
+                user.setBio(gitHubUser.getBio());
+            }
+            user.setLogin(gitHubUser.getLogin());
+            user.setHtmlUrl(gitHubUser.getHtmlUrl());
+            if (StringUtils.isNotBlank(gitHubUser.getEmail())) {
+                user.setEmail(gitHubUser.getEmail());
+            }
             userService.createOrUpdate(user);
             //登陆成功，写cookie和session
             Cookie cookie = new Cookie("token", token);

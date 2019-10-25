@@ -8,7 +8,7 @@
 <body>
     <div th:insert="~{googleTagManager :: google}"></div>
     <div th:insert="~{navigation :: nav}"></div>
-    <div class="container main profile">
+    <div class="container-fluid main profile">
         <div class="row">
 
             <!-- 左边主要内容 -->
@@ -42,6 +42,7 @@
                         $(function() {
                             editormd.markdownToHTML("question-view", {
                                 htmlDecode : "style,script,iframe,title,onmouseover,onmouseout,onclick",
+                                path: "/js/lib/",
                                 tocm : false,
                                 tocDropdown  : false,
                                 tocStartLevel : 3,      // Parse beginning of H2, Default value 1
@@ -53,23 +54,15 @@
                         });
                     </script>
 
-                    <!--添加广告代码-->
-                    <!--
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="width: 100%;"
-                         th:if="${#lists.isEmpty(#httpServletRequest.getServletContext().getAttribute('FOOTER'))}">
-                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                        &lt;!&ndash; 页尾广告 &ndash;&gt;
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-client="ca-pub-6190390069017474"
-                             data-ad-slot="4772323686"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left: 20px;"
+                         th:if="${!#lists.isEmpty(#httpServletRequest.getServletContext().getAttribute('FOOTER'))}"
+                         th:each="ad : ${#httpServletRequest.getServletContext().getAttribute('FOOTER')}">
+                        <a th:href="${ad.url}" th:text="${ad.title}" target="_blank"
+                           style="color: #A00;font-weight: bold;">
+                        </a>
+                        <img src="/images/hot.png"/>
                     </div>
-                    -->
+
                     <!-- 标签 -->
                     <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -100,7 +93,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comments" th:each="comment : ${comments}">
                         <div class="media">
                             <div class="media-left">
-                                <a href="#">
+                                <a th:href="@{'/userInfo/'+${comment.user.id}}">
                                     <img class="media-object img-rounded"
                                          th:src="${comment.user.avatarUrl}">
                                 </a>
@@ -113,9 +106,13 @@
                                 <div class="menu">
                                     <!--<span class="glyphicon glyphicon-thumbs-up icon"></span>-->
                                     <!--<span class="glyphicon glyphicon-comment icon"></span>-->
-                                    <span class="operate">
-                                        <a class="icon" href="javascript:;">
+                                    <span th:class="${comment.likeStatus==1}?'operate active':'operate'" th:id="${'span-like-'+comment.id}">
+                                        <a class="icon" href="javascript:;" th:data-id="${comment.id}"
+                                           th:data-status="${comment.likeStatus}"
+                                           th:client_id="${#httpServletRequest.getServletContext().getAttribute('clientId')}"
+                                           onclick="like(this)">
                                             <i class="iconfont">&#xe618;</i>
+                                            <SUB class="comment-num" th:id="${'sub-like-'+comment.id}" th:text="${comment.likeCount}"></SUB>
                                         </a>
                                     </span>
                                     <span class="operate span-comment-right" th:id="${'span-comment-'+comment.id}">
@@ -135,7 +132,9 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <input type="text" class="form-control" placeholder="评论一下......"
                                                th:id="${'input-'+comment.id}">
-                                        <button type="button" class="btn btn-success pull-right" onclick="comment(this)"
+                                        <button type="button" class="btn btn-success pull-right"
+                                                th:client_id="${#httpServletRequest.getServletContext().getAttribute('clientId')}"
+                                                onclick="comment(this)"
                                                 th:data-id="${comment.id}">评论
                                         </button>
                                     </div>
@@ -155,7 +154,7 @@
                     <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" id="comment_section">
                         <div class="media">
                             <div class="media-left">
-                                <a href="#">
+                                <a th:href="@{${session.user != null?'/userInfo/'+session.user.id:'javascript:;'}}">
                                     <img class="media-object img-rounded"
                                          th:src="${session.user != null ? session.user.avatarUrl : '/images/default-avatar.png'}">
                                 </a>
@@ -168,7 +167,11 @@
                         </div>
                         <input type="hidden" id="question_id" th:value="${question.id}">
                         <textarea class="form-control comment" rows="6" id="comment_content"></textarea>
-                        <button type="button" class="btn btn-success btn-comment" onclick="post()">回复</button>
+                        <button type="button" class="btn btn-success btn-comment"
+                                th:client_id="${#httpServletRequest.getServletContext().getAttribute('clientId')}"
+                                onclick="post(this)">
+                            回复
+                        </button>
                     </div>
                 </div>
             </div>
@@ -179,7 +182,7 @@
                     <h4 style="margin-top: 20px;">发起人</h4>
                     <div class="media">
                         <div class="media-left">
-                            <a href="#">
+                            <a th:href="@{'/userInfo/'+${question.user.id}}">
                                 <img class="media-object img-rounded"
                                      th:src="${question.user.avatarUrl}">
                             </a>
@@ -192,6 +195,9 @@
                     </div>
                 </div>
                 <div th:insert="~{notice :: notice}"></div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 side-hr">
+                    <hr>
+                </div>
                 <div th:insert="~{side :: side}"></div>
                 <!-- 相关问题 -->
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
