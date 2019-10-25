@@ -166,7 +166,7 @@ public class CommentService {
         Comment temp = new Comment();
         temp.setId(comment.getId());
         temp.setLikeCount(1L);
-//        if (user.getId()!=comment.getCommentator()) {
+        if (user.getId()!=comment.getCommentator()) {
             LikedExample example = new LikedExample();
             example.createCriteria()
                     .andLikeCreatorEqualTo(user.getId())
@@ -195,9 +195,9 @@ public class CommentService {
             }
             commentDTO.setUser(user);
             return ResultDTO.okOf(commentDTO);
-//        }else {
-//            return ResultDTO.errorOf(CustomizeErrorCode.NOT_LIKE_YOURSELF);
-//        }
+        }else {
+            return ResultDTO.errorOf(CustomizeErrorCode.NOT_LIKE_YOURSELF);
+        }
     }
 
     private void addLike(Comment temp, Liked liked,Comment comment, CommentDTO commentDTO) {
