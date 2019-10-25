@@ -61,7 +61,7 @@ public class COSProvider {
 
     //腾讯云的访问链接时长:
     @Value("${tencent.cos.expires}")
-    private Integer expires;
+    private Long expires;
 
     /**
      * 上传文件
