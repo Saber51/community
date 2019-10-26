@@ -6,28 +6,40 @@
     <head th:insert="~{import :: select}"></head>
 </head>
 <body>
-    <noscript th:insert="~{googleTagManager :: google}"></noscript>
-    <script src="/js/baidu_js_push.js"></script>
-    <div th:insert="~{navigation :: nav}"></div>
-    <div class="container-fluid main profile">
-        <div class="row">
-            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                <h3 class="icon-title-main">
-                    <i class="iconfont icon-main" th:text="${sectionName}=='我的问题' ? '&#xe6a2;' : '&#xe69b;'"></i>
-                    <span th:text="${sectionName}"></span>
-                </h3>
-                <hr>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section == 'questions'}">
-                    <div class="media" th:each="question : ${pagination.data}">
-                        <div class="media-left">
-                            <img class="media-object img-rounded"
-                                 th:src="${question.user.avatarUrl}">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="media-heading">
-                                <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
-                            </h4>
-                            <span class="text-desc">
+<noscript th:insert="~{googleTagManager :: google}"></noscript>
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<div th:insert="~{navigation :: nav}"></div>
+<div class="container-fluid main profile">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h3 class="icon-title-main">
+                <i class="iconfont icon-main" th:text="${sectionName}=='我的问题' ? '&#xe6a2;' : '&#xe69b;'"></i>
+                <span th:text="${sectionName}"></span>
+            </h3>
+            <hr>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section == 'questions'}">
+                <div class="media" th:each="question : ${pagination.data}">
+                    <div class="media-left">
+                        <img class="media-object img-rounded"
+                             th:src="${question.user.avatarUrl}">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">
+                            <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
+                        </h4>
+                        <span class="text-desc">
                             <span th:text="${question.commentCount}"></span> 个回复 •
                             <span th:text="${question.viewCount}"></span> 次浏览 •
                             <span th:text="${#dates.format(question.getGmtCreate(),'yyyy-MM-dd HH:mm')}"></span> •
@@ -37,264 +49,319 @@
                                 <span>编辑</span>
                             </a>
                         </span>
-                        </div>
                     </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section == 'replies'}">
-                    <div class="media" th:each="notification : ${pagination.data}">
-                        <div class="media-body">
-                            <p class="media-heading">
-                                <span th:text="${notification.notifierName+' '+notification.typeName+' '}"></span>
-                                <a th:href="@{'/notification/'+${notification.id}}"
-                                   th:text="${notification.outerTitle}">
-                                </a>
-                                <span class="label label-danger" th:if="${notification.status == 0}">未读</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination">
-                            <li th:if="${pagination.showFirstPage}">
-                                <a th:href="@{'/profile/'+${section}(page=${1})}" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li th:if="${pagination.showPrevious}">
-                                <a th:href="@{'/profile/'+${section}(page=${pagination.page - 1})}" aria-label="Previous">
-                                    <span aria-hidden="true">&lsaquo;</span>
-                                </a>
-                            </li>
-                            <li th:each="page : ${pagination.pages}" th:class="${pagination.page == page}? 'active': ''">
-                                <a th:href="@{'/profile/'+${section}(page=${page})}" th:text="${page}">
-                                </a>
-                            </li>
-                            <li th:if="${pagination.showNext}">
-                                <a th:href="@{'/profile/'+${section}(page=${pagination.page + 1})}" aria-label="Next">
-                                    <span aria-hidden="true">&rsaquo;</span>
-                                </a>
-                            </li>
-                            <li th:if="${pagination.showEndPage}">
-                                <a th:href="@{'/profile/'+${section}(page=${pagination.totalPage})}" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                <div class="list-group section">
-                    <a href="/profile/questions"
-                       th:class="${section == 'questions'}? 'list-group-item active' : 'list-group-item'">我的问题</a>
-                    <a href="/profile/replies"
-                       th:class="${section == 'replies'}? 'list-group-item active' : 'list-group-item'">
-                        最新回复
-                        <span class="badge" th:text="${session.unreadCount}"></span>
-                    </a>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${section == 'replies'}">
+                <div class="media" th:each="notification : ${pagination.data}">
+                    <div class="media-body">
+                        <p class="media-heading">
+                            <span th:text="${notification.notifierName+' '+notification.typeName+' '}"></span>
+                            <a th:href="@{'/notification/'+${notification.id}}"
+                               th:text="${notification.outerTitle}">
+                            </a>
+                            <span class="label label-danger" th:if="${notification.status == 0}">未读</span>
+                        </p>
+                    </div>
                 </div>
-                <div class="list-group user-info user-profile-info">
-                    <div class="media">
-                        <div class="media-left">
-                            <img class="img-rounded" th:src="${user.getAvatarUrl()}" th:alt="${user.getName()}+'的头像'">
-                        </div>
-                        <div class="media-body">
-                            <h5 th:text="${user.getName()}"></h5>
-                            <p th:text="${user.getSex()}"></p>
-                            <p>
-                                <i class="iconfont">&#xe661;</i>
-                                <span th:text="${user.getLocation()}"></span><br>
-                                <i class="iconfont">&#xe61f;</i>
-                                <span th:text="${user.getCareer()}"></span>
-                            </p>
-                        </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li th:if="${pagination.showFirstPage}">
+                            <a th:href="@{'/profile/'+${section}(page=${1})}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li th:if="${pagination.showPrevious}">
+                            <a th:href="@{'/profile/'+${section}(page=${pagination.page - 1})}" aria-label="Previous">
+                                <span aria-hidden="true">&lsaquo;</span>
+                            </a>
+                        </li>
+                        <li th:each="page : ${pagination.pages}" th:class="${pagination.page == page}? 'active': ''">
+                            <a th:href="@{'/profile/'+${section}(page=${page})}" th:text="${page}">
+                            </a>
+                        </li>
+                        <li th:if="${pagination.showNext}">
+                            <a th:href="@{'/profile/'+${section}(page=${pagination.page + 1})}" aria-label="Next">
+                                <span aria-hidden="true">&rsaquo;</span>
+                            </a>
+                        </li>
+                        <li th:if="${pagination.showEndPage}">
+                            <a th:href="@{'/profile/'+${section}(page=${pagination.totalPage})}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="list-group section">
+                <a href="/profile/questions"
+                   th:class="${section == 'questions'}? 'list-group-item active' : 'list-group-item'">我的问题</a>
+                <a href="/profile/replies"
+                   th:class="${section == 'replies'}? 'list-group-item active' : 'list-group-item'">
+                    最新回复
+                    <span class="badge" th:text="${session.unreadCount}"></span>
+                </a>
+            </div>
+            <div class="list-group user-info user-profile-info">
+                <div class="media">
+                    <div class="media-left">
+                        <img class="img-rounded" th:src="${user.getAvatarUrl()}" th:alt="${user.getName()}+'的头像'">
                     </div>
-                    <div class="list-group user-info-body">
-                        <i class="iconfont">&#xe65c;</i>
-                        邮箱: <br>
-                        <span th:text="${user.getEmail()}"></span><br><br>
-                        <i class="iconfont">&#xe630;</i>
-                        GitHub地址:<br>
-                        <a th:href="@{${user.getHtmlUrl()}}" th:text="${user.getHtmlUrl()}" target="_blank"></a><br><br>
-                        <i class="iconfont">&#xe60f;</i>
-                        个性签名: <br>
-                        <textarea class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-color-999" readonly="readonly" th:text="${user.getBio()}"></textarea>
-                        <i class="iconfont">&#xe657;</i>
-                        生日:<span th:text="${#dates.format(user.getBirth(),'yyyy-MM-dd')}"></span><br><br>
-                        <i class="iconfont">&#xe746;</i>
-                        Q&nbsp;&nbsp;Q:<span th:text="${user.getQq()}"></span><br><br>
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-success btn-lg btn-user pull-right" data-toggle="modal" data-target="#myModal">
-                            编辑
-                        </button>
+                    <div class="media-body">
+                        <h5 th:text="${user.getName()}"></h5>
+                        <p th:text="${user.getSex()}"></p>
+                        <p>
+                            <i class="iconfont">&#xe661;</i>
+                            <span th:text="${user.getLocation()}"></span><br>
+                            <i class="iconfont">&#xe61f;</i>
+                            <span th:text="${user.getCareer()}"></span>
+                        </p>
                     </div>
+                </div>
+                <div class="list-group user-info-body">
+                    <i class="iconfont">&#xe65c;</i>
+                    邮箱: <br>
+                    <span th:text="${user.getEmail()}"></span><br><br>
+                    <i class="iconfont">&#xe630;</i>
+                    GitHub地址:<br>
+                    <a th:href="@{${user.getHtmlUrl()}}" th:text="${user.getHtmlUrl()}" target="_blank"></a><br><br>
+                    <i class="iconfont">&#xe60f;</i>
+                    个性签名: <br>
+                    <textarea class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-color-999" readonly="readonly"
+                              th:text="${user.getBio()}"></textarea>
+                    <i class="iconfont">&#xe657;</i>
+                    生日:<span th:text="${#dates.format(user.getBirth(),'yyyy-MM-dd')}"></span><br><br>
+                    <i class="iconfont">&#xe746;</i>
+                    Q&nbsp;&nbsp;Q:<span th:text="${user.getQq()}"></span><br><br>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-success btn-lg btn-user pull-right" data-toggle="modal"
+                            data-target="#myModal">
+                        编辑
+                    </button>
+                </div>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <form action="/upUser" method="post">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                                aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title" id="myModalLabel">个人信息</h4>
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form action="/upUser" method="post">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">个人信息</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">邮箱:</label>
+                                        <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                                               placeholder="邮箱" th:value="${user.email}">
                                     </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">邮箱:</label>
-                                            <input type="email" name="email" class="form-control" id="exampleInputEmail1"
-                                                   placeholder="邮箱" th:value="${user.email}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputNickName">昵称:</label>
-                                            <input type="text" name="name" th:value="${user.name}" maxlength="12" class="form-control" id="exampleInputNickName"
-                                                   placeholder="昵称(最多12个字)" required>
-                                        </div>
-                                        <dl class="profile-dl">
-                                            <dt>性别:</dt>
-                                            <dd>
-                                                <label>
-                                                    <input type="radio" name="sex" value="男"
-                                                           th:attr ="checked=${user.sex == '男'? true : false}">
-                                                    男
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="sex" value="女"
-                                                           th:attr ="checked=${user.sex == '女'? true : false}">
-                                                    女
-                                                </label>
-                                                <label>
-                                                    <input type="radio" name="sex" value="保密"
-                                                           th:attr ="checked=${user.sex == '保密'? true : false}">
-                                                    保密
-                                                </label>
-                                            </dd>
-                                        </dl>
-                                        <div class="form-group">
-                                            <label for="datepicker">生日:</label>
-                                            <input type="text" name="birth" th:value="${{user.birth}}" class="form-control" id="datepicker"
-                                                   placeholder="生日" data-provide="datepicker-inline">
-                                            <script>
-                                                $('#datepicker').datepicker({
-                                                    format: 'yyyy-mm-dd',
-                                                    language:  'zh-CN',
-                                                    orientation: "auto",
-                                                    autoclose: true,
-                                                    todayHighlight: true,
-                                                    });
+                                    <div class="form-group">
+                                        <label for="exampleInputNickName">昵称:</label>
+                                        <input type="text" name="name" th:value="${user.name}" maxlength="12"
+                                               class="form-control" id="exampleInputNickName"
+                                               placeholder="昵称(最多12个字)" required>
+                                    </div>
+                                    <dl class="profile-dl">
+                                        <dt>性别:</dt>
+                                        <dd>
+                                            <label>
+                                                <input type="radio" name="sex" value="男"
+                                                       th:attr="checked=${user.sex == '男'? true : false}">
+                                                男
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="sex" value="女"
+                                                       th:attr="checked=${user.sex == '女'? true : false}">
+                                                女
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="sex" value="保密"
+                                                       th:attr="checked=${user.sex == '保密'? true : false}">
+                                                保密
+                                            </label>
+                                        </dd>
+                                    </dl>
+                                    <div class="form-group">
+                                        <label for="datepicker">生日:</label>
+                                        <input type="text" name="birth" th:value="${{user.birth}}" class="form-control"
+                                               id="datepicker"
+                                               placeholder="生日" data-provide="datepicker-inline">
+                                        <script>
+                                            $('#datepicker').datepicker({
+                                                format: 'yyyy-mm-dd',
+                                                language: 'zh-CN',
+                                                orientation: "auto",
+                                                autoclose: true,
+                                                todayHighlight: true,
+                                            });
+                                        </script>
+                                    </div>
+                                    <dl class="profile-select">
+                                        <label for="distpicker">现居:</label>
+                                        <div data-toggle="distpicker" class="form-inline" id="distpicker">
+                                            <input type="hidden" id="dbProvince"
+                                                   th:value="${user.location!=null?user.location.split(' ')[0]:''}"/>
+                                            <input type="hidden" id="dbCity"
+                                                   th:value="${user.location!=null?user.location.split(' ')[1]:''}"/>
+                                            <select name="province" id="province" class="form-control"></select>
+                                            <select name="city" id="city" class="form-control"></select>
+                                            <script type="text/javascript">
+                                                var province = $("#dbProvince").val();
+                                                var city = $("#dbCity").val();
+                                                $('#distpicker').distpicker('destroy');
+                                                $('#distpicker').distpicker({
+                                                    province: province,
+                                                    city: city
+                                                });
                                             </script>
                                         </div>
-                                        <dl class="profile-select">
-                                            <label for="distpicker">现居:</label>
-                                            <div data-toggle="distpicker" class="form-inline" id="distpicker">
-                                                <input type="hidden" id="dbProvince" th:value="${user.location!=null?user.location.split(' ')[0]:''}"/>
-                                                <input type="hidden" id="dbCity" th:value="${user.location!=null?user.location.split(' ')[1]:''}"/>
-                                                <select name="province" id="province" class="form-control"></select>
-                                                <select name="city" id="city" class="form-control"></select>
-                                                <script type="text/javascript">
-                                                    var province = $("#dbProvince").val();
-                                                    var city = $("#dbCity").val();
-                                                    $('#distpicker').distpicker('destroy');
-                                                    $('#distpicker').distpicker({
-                                                        province: province,
-                                                        city: city
-                                                    });
-                                                </script>
-                                            </div>
-                                        </dl>
-                                        <div class="form-group">
-                                            <label for="exampleInputCareer">职业:</label>
-                                            <select name="career" th:field="${user.career}" th:value="${user.career}" class="form-control" id="exampleInputCareer">
-                                                <option value="">--</option>
-                                                <option th:selected="${user.career eq '销售'}" value="销售">销售</option>
-                                                <option th:selected="${user.career eq '市场/市场拓展/公关'}" value="市场/市场拓展/公关">市场/市场拓展/公关</option>
-                                                <option th:selected="${user.career eq '商务/采购/贸易'}" value="商务/采购/贸易">商务/采购/贸易</option>
-                                                <option th:selected="${user.career eq '计算机软、硬件/互联网/IT'}" value="计算机软、硬件/互联网/IT">计算机软、硬件/互联网/IT</option>
-                                                <option th:selected="${user.career eq '电子/半导体/仪表仪器'}" value="电子/半导体/仪表仪器">电子/半导体/仪表仪器</option>
-                                                <option th:selected="${user.career eq '销售'}" value="通信技术">通信技术</option>
-                                                <option th:selected="${user.career eq '客户服务/技术支持'}" value="客户服务/技术支持">客户服务/技术支持</option>
-                                                <option th:selected="${user.career eq '行政/后勤'}" value="行政/后勤">行政/后勤</option>
-                                                <option th:selected="${user.career eq '人力资源'}" value="人力资源">人力资源</option>
-                                                <option th:selected="${user.career eq '高级管理'}" value="高级管理">高级管理</option>
-                                                <option th:selected="${user.career eq '生产/加工/制造'}" value="生产/加工/制造">生产/加工/制造</option>
-                                                <option th:selected="${user.career eq '质控/安检'}" value="质控/安检">质控/安检</option>
-                                                <option th:selected="${user.career eq '工程机械'}" value="工程机械">工程机械</option>
-                                                <option th:selected="${user.career eq '技工'}" value="技工">技工</option>
-                                                <option th:selected="${user.career eq '财会/审计/统计'}" value="财会/审计/统计">财会/审计/统计</option>
-                                                <option th:selected="${user.career eq '金融/银行/保险/证券/投资'}" value="金融/银行/保险/证券/投资">金融/银行/保险/证券/投资</option>
-                                                <option th:selected="${user.career eq '建筑/房地产/装修/物业'}" value="建筑/房地产/装修/物业">建筑/房地产/装修/物业</option>
-                                                <option th:selected="${user.career eq '交通/仓储/物流'}" value="交通/仓储/物流">交通/仓储/物流</option>
-                                                <option th:selected="${user.career eq '普通劳动力/家政服务'}" value="普通劳动力/家政服务">普通劳动力/家政服务</option>
-                                                <option th:selected="${user.career eq '零售业'}" value="零售业">零售业</option>
-                                                <option th:selected="${user.career eq '教育/培训'}" value="教育/培训">教育/培训</option>
-                                                <option th:selected="${user.career eq '咨询/顾问'}" value="咨询/顾问">咨询/顾问</option>
-                                                <option th:selected="${user.career eq '学术/科研'}" value="学术/科研">学术/科研</option>
-                                                <option th:selected="${user.career eq '法律'}" value="法律">法律</option>
-                                                <option th:selected="${user.career eq '美术/设计/创意'}" value="美术/设计/创意">美术/设计/创意</option>
-                                                <option th:selected="${user.career eq '编辑/文案/传媒/影视/新闻'}" value="编辑/文案/传媒/影视/新闻">编辑/文案/传媒/影视/新闻</option>
-                                                <option th:selected="${user.career eq '酒店/餐饮/旅游/娱乐'}" value="酒店/餐饮/旅游/娱乐">酒店/餐饮/旅游/娱乐</option>
-                                                <option th:selected="${user.career eq '化工'}" value="化工">化工</option>
-                                                <option th:selected="${user.career eq '能源/矿产/地质勘查'}" value="能源/矿产/地质勘查">能源/矿产/地质勘查</option>
-                                                <option th:selected="${user.career eq '医疗/护理/保健/美容'}" value="医疗/护理/保健/美容">医疗/护理/保健/美容</option>
-                                                <option th:selected="${user.career eq '生物/制药/医疗器械'}" value="生物/制药/医疗器械">生物/制药/医疗器械</option>
-                                                <option th:selected="${user.career eq '翻译（口译与笔译）'}" value="翻译（口译与笔译）">翻译（口译与笔译）</option>
-                                                <option th:selected="${user.career eq '公务员'}" value="公务员">公务员</option>
-                                                <option th:selected="${user.career eq '环境科学/环保'}" value="环境科学/环保">环境科学/环保</option>
-                                                <option th:selected="${user.career eq '农/林/牧/渔业'}" value="农/林/牧/渔业">农/林/牧/渔业</option>
-                                                <option th:selected="${user.career eq '兼职/临时/培训生/储备干部'}" value="兼职/临时/培训生/储备干部">兼职/临时/培训生/储备干部</option>
-                                                <option th:selected="${user.career eq '在校学生'}" value="在校学生">在校学生</option>
-                                                <option th:selected="${user.career eq '其他'}" value="其他">其他</option>
-                                                <option th:selected="${user.career eq '研发工程师'}" value="研发工程师">研发工程师</option>
-                                                <option th:selected="${user.career eq '软件工程师'}" value="软件工程师">软件工程师</option>
-                                                <option th:selected="${user.career eq '研发经理'}" value="研发经理">研发经理</option>
-                                                <option th:selected="${user.career eq '研发总监'}" value="研发总监">研发总监</option>
-                                                <option th:selected="${user.career eq '运维经理'}" value="运维经理">运维经理</option>
-                                                <option th:selected="${user.career eq '运维主管'}" value="运维主管">运维主管</option>
-                                                <option th:selected="${user.career eq '架构师'}" value="架构师">架构师</option>
-                                                <option th:selected="${user.career eq '数据库管理员/DBA'}" value="数据库管理员/DBA">数据库管理员/DBA</option>
-                                                <option th:selected="${user.career eq '项目经理'}" value="项目经理">项目经理</option>
-                                                <option th:selected="${user.career eq '产品经理'}" value="产品经理">产品经理</option>
-                                                <option th:selected="${user.career eq '咨询师'}" value="咨询师">咨询师</option>
-                                                <option th:selected="${user.career eq '合作经理'}" value="合作经理">合作经理</option>
-                                                <option th:selected="${user.career eq '商务拓展'}" value="商务拓展">商务拓展</option>
-                                                <option th:selected="${user.career eq '数据科学家'}" value="数据科学家">数据科学家</option>
-                                                <option th:selected="${user.career eq '运维工程师'}" value="运维工程师">运维工程师</option>
-                                                <option th:selected="${user.career eq '搬砖小工'}" value="搬砖小工">搬砖小工</option>
-                                                <option th:selected="${user.career eq '粉刷匠'}" value="粉刷匠">粉刷匠</option>
-                                                <option th:selected="${user.career eq '设计师'}" value="设计师">设计师</option>
-                                                <option th:selected="${user.career eq '技术总监'}" value="技术总监">技术总监</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputBio">个性签名:</label>
-                                            <input type="text" name="bio" th:value="${user.bio}" class="form-control" id="exampleInputBio" maxlength="60"
-                                                   placeholder="个性签名（最多50个字）" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputPhone">手机:</label>
-                                            <input type="text" name="phone" th:value="${user.phone}" size="11" onkeyup="this.value=this.value.replace(/\D/g,'')" class="form-control" id="exampleInputPhone"
-                                                   placeholder="手机号">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputQq">QQ:</label>
-                                            <input type="text" name="qq" th:value="${user.qq}" onkeyup="this.value=this.value.replace(/\D/g,'')" class="form-control" id="exampleInputQq"
-                                                   placeholder="QQ号">
-                                        </div>
+                                    </dl>
+                                    <div class="form-group">
+                                        <label for="exampleInputCareer">职业:</label>
+                                        <select name="career" th:field="${user.career}" th:value="${user.career}"
+                                                class="form-control" id="exampleInputCareer">
+                                            <option value="">--</option>
+                                            <option th:selected="${user.career eq '销售'}" value="销售">销售</option>
+                                            <option th:selected="${user.career eq '市场/市场拓展/公关'}" value="市场/市场拓展/公关">
+                                                市场/市场拓展/公关
+                                            </option>
+                                            <option th:selected="${user.career eq '商务/采购/贸易'}" value="商务/采购/贸易">
+                                                商务/采购/贸易
+                                            </option>
+                                            <option th:selected="${user.career eq '计算机软、硬件/互联网/IT'}"
+                                                    value="计算机软、硬件/互联网/IT">计算机软、硬件/互联网/IT
+                                            </option>
+                                            <option th:selected="${user.career eq '电子/半导体/仪表仪器'}" value="电子/半导体/仪表仪器">
+                                                电子/半导体/仪表仪器
+                                            </option>
+                                            <option th:selected="${user.career eq '销售'}" value="通信技术">通信技术</option>
+                                            <option th:selected="${user.career eq '客户服务/技术支持'}" value="客户服务/技术支持">
+                                                客户服务/技术支持
+                                            </option>
+                                            <option th:selected="${user.career eq '行政/后勤'}" value="行政/后勤">行政/后勤</option>
+                                            <option th:selected="${user.career eq '人力资源'}" value="人力资源">人力资源</option>
+                                            <option th:selected="${user.career eq '高级管理'}" value="高级管理">高级管理</option>
+                                            <option th:selected="${user.career eq '生产/加工/制造'}" value="生产/加工/制造">
+                                                生产/加工/制造
+                                            </option>
+                                            <option th:selected="${user.career eq '质控/安检'}" value="质控/安检">质控/安检</option>
+                                            <option th:selected="${user.career eq '工程机械'}" value="工程机械">工程机械</option>
+                                            <option th:selected="${user.career eq '技工'}" value="技工">技工</option>
+                                            <option th:selected="${user.career eq '财会/审计/统计'}" value="财会/审计/统计">
+                                                财会/审计/统计
+                                            </option>
+                                            <option th:selected="${user.career eq '金融/银行/保险/证券/投资'}"
+                                                    value="金融/银行/保险/证券/投资">金融/银行/保险/证券/投资
+                                            </option>
+                                            <option th:selected="${user.career eq '建筑/房地产/装修/物业'}" value="建筑/房地产/装修/物业">
+                                                建筑/房地产/装修/物业
+                                            </option>
+                                            <option th:selected="${user.career eq '交通/仓储/物流'}" value="交通/仓储/物流">
+                                                交通/仓储/物流
+                                            </option>
+                                            <option th:selected="${user.career eq '普通劳动力/家政服务'}" value="普通劳动力/家政服务">
+                                                普通劳动力/家政服务
+                                            </option>
+                                            <option th:selected="${user.career eq '零售业'}" value="零售业">零售业</option>
+                                            <option th:selected="${user.career eq '教育/培训'}" value="教育/培训">教育/培训</option>
+                                            <option th:selected="${user.career eq '咨询/顾问'}" value="咨询/顾问">咨询/顾问</option>
+                                            <option th:selected="${user.career eq '学术/科研'}" value="学术/科研">学术/科研</option>
+                                            <option th:selected="${user.career eq '法律'}" value="法律">法律</option>
+                                            <option th:selected="${user.career eq '美术/设计/创意'}" value="美术/设计/创意">
+                                                美术/设计/创意
+                                            </option>
+                                            <option th:selected="${user.career eq '编辑/文案/传媒/影视/新闻'}"
+                                                    value="编辑/文案/传媒/影视/新闻">编辑/文案/传媒/影视/新闻
+                                            </option>
+                                            <option th:selected="${user.career eq '酒店/餐饮/旅游/娱乐'}" value="酒店/餐饮/旅游/娱乐">
+                                                酒店/餐饮/旅游/娱乐
+                                            </option>
+                                            <option th:selected="${user.career eq '化工'}" value="化工">化工</option>
+                                            <option th:selected="${user.career eq '能源/矿产/地质勘查'}" value="能源/矿产/地质勘查">
+                                                能源/矿产/地质勘查
+                                            </option>
+                                            <option th:selected="${user.career eq '医疗/护理/保健/美容'}" value="医疗/护理/保健/美容">
+                                                医疗/护理/保健/美容
+                                            </option>
+                                            <option th:selected="${user.career eq '生物/制药/医疗器械'}" value="生物/制药/医疗器械">
+                                                生物/制药/医疗器械
+                                            </option>
+                                            <option th:selected="${user.career eq '翻译（口译与笔译）'}" value="翻译（口译与笔译）">
+                                                翻译（口译与笔译）
+                                            </option>
+                                            <option th:selected="${user.career eq '公务员'}" value="公务员">公务员</option>
+                                            <option th:selected="${user.career eq '环境科学/环保'}" value="环境科学/环保">环境科学/环保
+                                            </option>
+                                            <option th:selected="${user.career eq '农/林/牧/渔业'}" value="农/林/牧/渔业">
+                                                农/林/牧/渔业
+                                            </option>
+                                            <option th:selected="${user.career eq '兼职/临时/培训生/储备干部'}"
+                                                    value="兼职/临时/培训生/储备干部">兼职/临时/培训生/储备干部
+                                            </option>
+                                            <option th:selected="${user.career eq '在校学生'}" value="在校学生">在校学生</option>
+                                            <option th:selected="${user.career eq '其他'}" value="其他">其他</option>
+                                            <option th:selected="${user.career eq '研发工程师'}" value="研发工程师">研发工程师</option>
+                                            <option th:selected="${user.career eq '软件工程师'}" value="软件工程师">软件工程师</option>
+                                            <option th:selected="${user.career eq '研发经理'}" value="研发经理">研发经理</option>
+                                            <option th:selected="${user.career eq '研发总监'}" value="研发总监">研发总监</option>
+                                            <option th:selected="${user.career eq '运维经理'}" value="运维经理">运维经理</option>
+                                            <option th:selected="${user.career eq '运维主管'}" value="运维主管">运维主管</option>
+                                            <option th:selected="${user.career eq '架构师'}" value="架构师">架构师</option>
+                                            <option th:selected="${user.career eq '数据库管理员/DBA'}" value="数据库管理员/DBA">
+                                                数据库管理员/DBA
+                                            </option>
+                                            <option th:selected="${user.career eq '项目经理'}" value="项目经理">项目经理</option>
+                                            <option th:selected="${user.career eq '产品经理'}" value="产品经理">产品经理</option>
+                                            <option th:selected="${user.career eq '咨询师'}" value="咨询师">咨询师</option>
+                                            <option th:selected="${user.career eq '合作经理'}" value="合作经理">合作经理</option>
+                                            <option th:selected="${user.career eq '商务拓展'}" value="商务拓展">商务拓展</option>
+                                            <option th:selected="${user.career eq '数据科学家'}" value="数据科学家">数据科学家</option>
+                                            <option th:selected="${user.career eq '运维工程师'}" value="运维工程师">运维工程师</option>
+                                            <option th:selected="${user.career eq '搬砖小工'}" value="搬砖小工">搬砖小工</option>
+                                            <option th:selected="${user.career eq '粉刷匠'}" value="粉刷匠">粉刷匠</option>
+                                            <option th:selected="${user.career eq '设计师'}" value="设计师">设计师</option>
+                                            <option th:selected="${user.career eq '技术总监'}" value="技术总监">技术总监</option>
+                                        </select>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="reset" class="btn btn-default">重置</button>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                        <button type="submit" class="btn btn-primary">提交</button>
+                                    <div class="form-group">
+                                        <label for="exampleInputBio">个性签名:</label>
+                                        <input type="text" name="bio" th:value="${user.bio}" class="form-control"
+                                               id="exampleInputBio" maxlength="60"
+                                               placeholder="个性签名（最多50个字）" required>
                                     </div>
-                                </form>
-                            </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPhone">手机:</label>
+                                        <input type="text" name="phone" th:value="${user.phone}" size="11"
+                                               onkeyup="this.value=this.value.replace(/\D/g,'')" class="form-control"
+                                               id="exampleInputPhone"
+                                               placeholder="手机号">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputQq">QQ:</label>
+                                        <input type="text" name="qq" th:value="${user.qq}"
+                                               onkeyup="this.value=this.value.replace(/\D/g,'')" class="form-control"
+                                               id="exampleInputQq"
+                                               placeholder="QQ号">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="reset" class="btn btn-default">重置</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <button type="submit" class="btn btn-primary">提交</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div th:insert="~{footer :: foot}"></div>
+</div>
+<div th:insert="~{footer :: foot}"></div>
 </body>
 </html>

@@ -6,125 +6,138 @@
     <head th:insert="~{import :: markdown}"></head>
 </head>
 <body>
-    <noscript th:insert="~{googleTagManager :: google}"></noscript>
-    <script src="/js/baidu_js_push.js"></script>
-    <div th:insert="~{navigation :: nav}"></div>
-    <div class="container-fluid main">
-        <div class="row" style="display: flex;align-items: stretch;">
-            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                <div onclick="hideSelectTag()">
-                    <h2 class="icon-title-main">
-                        <span class="iconfont icon-main" aria-hidden="true">&#xe602;</span>
-                        发起
-                    </h2>
-                    <hr>
+<noscript th:insert="~{googleTagManager :: google}"></noscript>
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+<div th:insert="~{navigation :: nav}"></div>
+<div class="container-fluid main">
+    <div class="row" style="display: flex;align-items: stretch;">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <div onclick="hideSelectTag()">
+                <h2 class="icon-title-main">
+                    <span class="iconfont icon-main" aria-hidden="true">&#xe602;</span>
+                    发起
+                </h2>
+                <hr>
+            </div>
+            <form action="/publish" method="post">
+                <input type="hidden" name="id" th:value="${id}">
+                <div class="form-group" onclick="hideSelectTag()">
+                    <label for="title">问题标题（简单扼要）:</label>
+                    <input type="text" class="form-control" maxlength="35" th:value="${title}" id="title" name="title"
+                           autocomplete="off" placeholder="问题标题..." required>
                 </div>
-                <form action="/publish" method="post">
-                    <input type="hidden" name="id" th:value="${id}">
-                    <div class="form-group" onclick="hideSelectTag()">
-                        <label for="title">问题标题（简单扼要）:</label>
-                        <input type="text" class="form-control" maxlength="35" th:value="${title}" id="title" name="title"
-                               autocomplete="off" placeholder="问题标题..." required>
-                    </div>
-                    <div class="form-group">
-                        <label for="tag">添加标签:</label>
-                        <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag"
-                               autocomplete="off"
-                               placeholder="输入标签，以‘,’分隔..."
-                               onclick="showSelectTag()"
-                               required>
-                        <div id="select-tag" class="publish-tag-tab" style="z-index: 100;">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation" th:each="selectCategory,selectCategoryStat: ${tags}"
-                                    th:class="${selectCategoryStat.first ? 'active' : ''}">
-                                    <a th:href="${'#'+selectCategory.categoryName}" aria-controls="home" role="tab"
-                                       data-toggle="tab" th:text="${selectCategory.categoryName}"></a>
-                                </li>
-                            </ul>
-                            <div class="tab-content">
-                                <div role="tabpanel" th:id="${selectCategory.categoryName}"
-                                     th:each="selectCategory : ${tags}"
-                                     th:class="${selectCategoryStat.first ? 'tab-pane active' : 'tab-pane'}">
-                                    <span class="label label-info community-tag" th:each="selectTag : ${selectCategory.tags}">
+                <div class="form-group">
+                    <label for="tag">添加标签:</label>
+                    <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag"
+                           autocomplete="off"
+                           placeholder="输入标签，以‘,’分隔..."
+                           onclick="showSelectTag()"
+                           required>
+                    <div id="select-tag" class="publish-tag-tab" style="z-index: 100;">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" th:each="selectCategory,selectCategoryStat: ${tags}"
+                                th:class="${selectCategoryStat.first ? 'active' : ''}">
+                                <a th:href="${'#'+selectCategory.categoryName}" aria-controls="home" role="tab"
+                                   data-toggle="tab" th:text="${selectCategory.categoryName}"></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" th:id="${selectCategory.categoryName}"
+                                 th:each="selectCategory : ${tags}"
+                                 th:class="${selectCategoryStat.first ? 'tab-pane active' : 'tab-pane'}">
+                                    <span class="label label-info community-tag"
+                                          th:each="selectTag : ${selectCategory.tags}">
                                         <span th:text="${' '+selectTag}"
                                               onclick="selectTag(this)" th:data-tag="${selectTag}"></span>
                                     </span>
-                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group" onclick="hideSelectTag()">
-                        <label for="description">问题补充 (必填，请参照右侧提示):</label>
-                        <div class="editormd" id="question-editor">
+                </div>
+                <div class="form-group" onclick="hideSelectTag()">
+                    <label for="description">问题补充 (必填，请参照右侧提示):</label>
+                    <div class="editormd" id="question-editor">
                             <textarea name="description" id="description" th:text="${description}"
                                       style="display:none;"
                                       cols="30" rows="10" required>
                             </textarea>
-                        </div>
-                        <script type="text/javascript">
-                            var editor;
-                            $(function () {
-                                editor = editormd("question-editor", {
-                                    width: "100%",
-                                    height: 350,
-                                    path: "/js/lib/",
-                                    delay: 0,
-                                    watch: false,
-                                    placeholder: "请输入问题描述:",
-                                    imageUpload: true,
-                                    imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                                    imageUploadURL: "/file/upload",
-                                    syncScrolling: "single",
-                                    htmlDecode : "style,script,iframe,title,onmouseover,onmouseout,onclick",
-                                    tocm : false,
-                                    tocDropdown  : false,
-                                    tocStartLevel : 3,      // Parse beginning of H2, Default value 1
-                                    tex  : true,
-                                    emoji : true,
-                                    flowChart : true,
-                                    sequenceDiagram : true
-                                });
+                    </div>
+                    <script type="text/javascript">
+                        var editor;
+                        $(function () {
+                            editor = editormd("question-editor", {
+                                width: "100%",
+                                height: 350,
+                                path: "/js/lib/",
+                                delay: 0,
+                                watch: false,
+                                placeholder: "请输入问题描述:",
+                                imageUpload: true,
+                                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                                imageUploadURL: "/file/upload",
+                                syncScrolling: "single",
+                                htmlDecode: "style,script,iframe,title,onmouseover,onmouseout,onclick",
+                                tocm: false,
+                                tocDropdown: false,
+                                tocStartLevel: 3,      // Parse beginning of H2, Default value 1
+                                tex: true,
+                                emoji: true,
+                                flowChart: true,
+                                sequenceDiagram: true
                             });
-                        </script>
-                    </div>
-                    <div class="container-fluid main" id="input-btn" onclick="hideSelectTag()">
-                        <div class="row">
-                            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                                <div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12"
-                                     th:text="${error}"
-                                     th:if="${error != null}">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                                <button type="submit" class="btn btn-success btn-publish">
-                                    发布
-                                </button>
+                        });
+                    </script>
+                </div>
+                <div class="container-fluid main" id="input-btn" onclick="hideSelectTag()">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                            <div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                 th:text="${error}"
+                                 th:if="${error != null}">
                             </div>
                         </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                            <button type="submit" class="btn btn-success btn-publish">
+                                发布
+                            </button>
+                        </div>
                     </div>
-                </form>
-            </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" onclick="hideSelectTag()">
-                <h4 style="margin-top: 25px;"><b>• 问题标题:</b></h4>
-                <p>
-                    请用<b style="color:red">精简</b>的语言描述您发布的问题，不超过<b style="color:red">25</b>字
-                </p>
-                <p></p>
-                <h4><b>• 选择标签:</b></h4>
-                <p>选择一个或者多个合适的标签，<b style="color:red">只能使用提供的标签</b></p>
-                <p></p>
-                <h4><b>• 问题补充:</b></h4>
-                <p>详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料： </p>
-                <li>服务器运行环境信息；</li>
-                <li>软件版本；</li>
-                <li>问题发生的上下文信息；</li>
-                <li>可以完整复现问题的代码（如可直接运行于 Kibana Console 的复现流程）；</li>
-                <li>补充完整的异常和错误信息；</li>
-                <li>注意阅读格式友好，代码和异常信息请用代码标签格式化张贴；</li>
-                <p></p>
-            </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" onclick="hideSelectTag()">
+            <h4 style="margin-top: 25px;"><b>• 问题标题:</b></h4>
+            <p>
+                请用<b style="color:red">精简</b>的语言描述您发布的问题，不超过<b style="color:red">25</b>字
+            </p>
+            <p></p>
+            <h4><b>• 选择标签:</b></h4>
+            <p>选择一个或者多个合适的标签，<b style="color:red">只能使用提供的标签</b></p>
+            <p></p>
+            <h4><b>• 问题补充:</b></h4>
+            <p>详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料： </p>
+            <li>服务器运行环境信息；</li>
+            <li>软件版本；</li>
+            <li>问题发生的上下文信息；</li>
+            <li>可以完整复现问题的代码（如可直接运行于 Kibana Console 的复现流程）；</li>
+            <li>补充完整的异常和错误信息；</li>
+            <li>注意阅读格式友好，代码和异常信息请用代码标签格式化张贴；</li>
+            <p></p>
         </div>
     </div>
-    <div th:insert="~{footer :: foot}"></div>
+</div>
+<div th:insert="~{footer :: foot}"></div>
 </body>
 </html>

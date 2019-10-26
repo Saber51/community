@@ -6,7 +6,19 @@
 </head>
 <body>
 <noscript th:insert="~{googleTagManager :: google}"></noscript>
-<script src="/js/baidu_js_push.js"></script>
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
 <div th:insert="~{navigation :: nav}"></div>
 <div class="container-fluid main profile">
     <div class="row">
@@ -91,7 +103,8 @@
                     <a th:href="@{${user.getHtmlUrl()}}" th:text="${user.getHtmlUrl()}" target="_blank"></a><br><br>
                     <i class="iconfont">&#xe60f;</i>
                     个性签名: <br>
-                    <textarea class="col-lg-12 col-md-12 col-sm-12 col-xs-12" readonly="readonly" th:text="${user.getBio()}"></textarea>
+                    <textarea class="col-lg-12 col-md-12 col-sm-12 col-xs-12" readonly="readonly"
+                              th:text="${user.getBio()}"></textarea>
                     <i class="iconfont">&#xe657;</i>
                     生日:<span th:text="${#dates.format(user.getBirth(),'yyyy-MM-dd')}"></span><br><br>
                     <i class="iconfont">&#xe746;</i>
