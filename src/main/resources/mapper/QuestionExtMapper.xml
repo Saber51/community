@@ -49,7 +49,7 @@
         AND title REGEXP #{search}
       </if>
       <if test="tag != null and tag != ''">
-        AND FIND_IN_SET(#{tag}, tag)!=0
+        and tag REGEXP #{tag}
       </if>
       <if test="sort != null and sort != '' and sort == 'no'">
         AND comment_count = 0
@@ -68,7 +68,7 @@
         AND title REGEXP #{search}
       </if>
       <if test="tag != null and tag != ''">
-        AND FIND_IN_SET(#{tag}, tag)!=0
+        and tag REGEXP #{tag}
       </if>
       <if test="sort != null and sort != '' and sort == 'no'">
         AND comment_count = 0
