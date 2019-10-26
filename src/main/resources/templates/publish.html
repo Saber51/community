@@ -6,6 +6,8 @@
     <head th:insert="~{import :: markdown}"></head>
 </head>
 <body>
+    <noscript th:insert="~{googleTagManager :: google}"></noscript>
+    <script src="/js/baidu_js_push.js"></script>
     <div th:insert="~{navigation :: nav}"></div>
     <div class="container-fluid main">
         <div class="row" style="display: flex;align-items: stretch;">
