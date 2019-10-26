@@ -1,11 +1,23 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"  xmlns="http://www.w3.org/1999/html" lang="zh_CN">
 <head>
-    <title>码农之家</title>
+    <title>码农之家 - 为代码奋斗而生</title>
     <head th:insert="~{import :: head}"></head>
 </head>
 <body>
 <noscript th:insert="~{googleTagManager :: google}"></noscript>
+<div th:insert="~{navigation :: nav}"></div>
+<div class="jumbotron" style="min-height: 300px;">
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        <h1>出错啦！！！</h1>
+        <p th:text="${message}">服务太热啦，要不然稍等下再来试试~</p>
+        <p><a class="btn btn-primary btn-lg" href="/" role="button">回到主页</a></p>
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+        <img class="img-thumbnail" style="width: 35%;" src="/images/official-account.png">
+    </div>
+</div>
+<div th:insert="~{footer :: foot}"></div>
 <script>
     (function () {
         var bp = document.createElement('script');
@@ -19,17 +31,5 @@
         s.parentNode.insertBefore(bp, s);
     })();
 </script>
-<div th:insert="~{navigation :: nav}"></div>
-<div class="jumbotron" style="min-height: 300px;">
-    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-        <h1>出错啦！！！</h1>
-        <p th:text="${message}">服务太热啦，要不然稍等下再来试试~</p>
-        <p><a class="btn btn-primary btn-lg" href="/" role="button">回到主页</a></p>
-    </div>
-    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-        <img class="img-thumbnail" style="width: 35%;" src="/images/official-account.png">
-    </div>
-</div>
-<div th:insert="~{footer :: foot}"></div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="zh_CN">
 <head>
-    <title>码农之家</title>
+    <title>码农之家 - 为代码奋斗而生</title>
     <head th:insert="~{import :: head}"></head>
 </head>
 <script type="application/javascript">
@@ -15,20 +15,6 @@
 </script>
 <body>
 <noscript th:insert="~{googleTagManager :: google}"></noscript>
-<script>
-    (function(){
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https'){
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        }
-        else{
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 <div th:insert="~{navigation :: nav}"></div>
 <div class="container-fluid main">
     <div class="row">
@@ -143,5 +129,19 @@
     </div>
 </div>
 <div th:insert="~{footer :: foot}"></div>
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https'){
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else{
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
 </body>
 </html>
