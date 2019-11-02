@@ -108,7 +108,6 @@
         gotoLine             : true,
         codeFold             : false,
         autoHeight           : false,
-        setZIndex            : false,
 		autoFocus            : true,
         autoCloseTags        : true,
         searchReplace        : true,
@@ -1846,34 +1845,18 @@
             
             return this;
         },
-
+        
         /**
-         * 设置编辑器的宽度
-         * Set editor width
-         *
-         * @param   {Number|String} width  编辑器宽度值
-         * @returns {editormd}             返回editormd的实例对象
-         */
-
-        height : function(height) {
-
-            this.editor.css("width", (typeof height === "number") ? height  + "px" : height);
-            this.resize();
-
-            return this;
-        },
-
-        /**
-         * 设置编辑器的Z轴高度
+         * 设置编辑器的高度
          * Set editor height
          * 
-         * @param   {Number|String} z-index  编辑器Z轴高度值
+         * @param   {Number|String} height  编辑器高度值
          * @returns {editormd}              返回editormd的实例对象
          */
-
-        zIndex : function(zIndex) {
+        
+        height : function(height) {
                 
-            this.editor.css("z-index", (typeof zIndex === "number")  ? zIndex  + "" : zIndex);
+            this.editor.css("height", (typeof height === "number")  ? height  + "px" : height);            
             this.resize();
             
             return this;
@@ -1885,16 +1868,14 @@
          * 
          * @param   {Number|String} [width=null]  编辑器宽度值
          * @param   {Number|String} [height=null] 编辑器高度值
-         * @param   {Number|String} [zIndex=null] 编辑器Z轴高度值
          * @returns {editormd}                    返回editormd的实例对象
          */
         
-        resize : function(width, height, zIndex) {
+        resize : function(width, height) {
             
             width  = width  || null;
             height = height || null;
-            zIndex = zIndex || null;
-
+            
             var state      = this.state;
             var editor     = this.editor;
             var preview    = this.preview;
@@ -1907,10 +1888,9 @@
                 editor.css("width", (typeof width  === "number") ? width  + "px" : width);
             }
             
-            if (settings.autoHeight && settings.setZIndex && !state.fullscreen && !state.preview)
+            if (settings.autoHeight && !state.fullscreen && !state.preview)
             {
                 editor.css("height", "auto");
-                editor.css("z-index", "120");
                 codeMirror.css("height", "auto");
             } 
             else 
@@ -1919,16 +1899,10 @@
                 {
                     editor.css("height", (typeof height === "number") ? height + "px" : height);
                 }
-
-                if(zIndex)
-                {
-                    editor.css("z-index", (typeof height === "number") ? zIndex : height);
-                }
-
+                
                 if (state.fullscreen)
                 {
                     editor.height($(window).height());
-                    editor.zIndex($(window).zIndex);
                 }
 
                 if (settings.toolbar && !settings.readOnly) 
@@ -2700,7 +2674,7 @@
 
             editor.css({
                 width    : editor.data("oldWidth"),
-                height   : editor.data("oldHeight"),
+                height   : editor.data("oldHeight")
             }).removeClass(fullscreenClass);
 
             this.resize();
