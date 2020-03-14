@@ -1,4 +1,4 @@
-cd /home/App/community/
+cd /opt/App/community/
 git pull
 mvn clean compile flyway:migrate -Pproduction
 mvn clean compile -DskipTests package
