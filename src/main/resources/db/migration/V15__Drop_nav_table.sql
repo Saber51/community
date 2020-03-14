@@ -1,1 +1,1 @@
-drop table NAV;
+drop table nav;
