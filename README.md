@@ -68,7 +68,7 @@ $ sudo apt-get install yum
 - cd ..
 - mkdir App
 - cd App
-- git clone https://github.com/Saber51/community.git
+- git clone https://github.com/saber-kings/community.git
 - apt install maven
 - mvn -v
 - mvn clean compile package
@@ -89,6 +89,15 @@ $ sudo apt-get install yum
 - ucloud.ufile.suffix=ufileos.com
 - ucloud.ufile.expires=315360000
 
+#### 腾讯云对象存储参数
+- tencent.cos.SecretId=asjfgasfjshgkfhjsgjkadsgahadkjsg4454
+- tencent.cos.SecretKey=daslghghdfklhgfdkjhgjk
+- tencent.cos.bucket=mawen-12345678
+- tencent.cos.region=ap-beijing
+- tencent.cos.allowPrefix=*
+- tencent.cos.durationSeconds=3600
+- tencent.cos.expires=315360000000
+
 ## 资料
 [Spring 文档](https://spring.io/guides)   
 [Spring Web文档](https://spring.io/guides/gs/serving-web-content/)  
@@ -102,7 +111,7 @@ $ sudo apt-get install yum
 [Spring MVC](https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html)  
 [Markdown 插件](https://pandao.github.io/editor.md/)   
 [COS SDK](https://cloud.tencent.com/document/product/436/10199)  
-[UFfile SDK](https://github.com/ucloud/ufile-sdk-java)  
+[UFfile SDK](https://github.com/ucloud/ufile-sdk-java)
 [Count(*) VS Count(1)](https://mp.weixin.qq.com/s/Rwpke4BHu7Fz7KOpE2d3Lw)  
 
 ## 工具
@@ -149,6 +158,68 @@ public class User{
 }
 ```
 
+修复github授权用户查询方式过期以及授权登陆连接超时问题，
+具体解决方式如下：
+```java
+public class GitHubProvider {
+    public String getAccessToken(AccessTokenDTO accessTokenDTO) {
+        MediaType mediaType = MediaType.get("application/json; charset=utf-8");
+        OkHttpClient client = new OkHttpClient.Builder()
+                //设置连接超时时间
+                .connectTimeout(60, TimeUnit.SECONDS)
+                //设置读取超时时间
+                .readTimeout(120, TimeUnit.SECONDS)
+                .build();
+
+        RequestBody body = RequestBody.create(mediaType, JSON.toJSONString(accessTokenDTO));
+        Request request = new Request.Builder()
+                .url("https://github.com/login/oauth/access_token")
+                .post(body)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            ResponseBody responseBody = response.body();
+            if (responseBody != null) {
+                String string = responseBody.string();
+                return string.split("&")[0].split("=")[1];
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("getAccessToken error,{}", accessTokenDTO, e);
+        }
+        return null;
+    }
+
+    public GitHubUser getUser(String accessToken) {
+        OkHttpClient client = new OkHttpClient.Builder()
+                //设置连接超时时间
+                .connectTimeout(60, TimeUnit.SECONDS)
+                //设置读取超时时间
+                .readTimeout(120, TimeUnit.SECONDS)
+                .build();
+        Request request = new Request.Builder()
+                .url("https://api.github.com/user")
+                //新查询方式将 accessToken 添加到请求头中
+                .header("Authorization", "token " + accessToken)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            ResponseBody body = response.body();
+            if (body != null) {
+                String string = body.string();
+                return JSON.parseObject(string, GitHubUser.class);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            log.error("getUser error,{}", accessToken, e);
+        }
+        return null;
+    }
+}
+
+```
+
 ## 更新日志
 - 2019-10-18 修复 session 过期时间很短问题   
 - 2019-10-18 修复 JSONObject 类多引用路径的警告问题   
@@ -162,3 +233,4 @@ public class User{
 - 2019-10-24 添加个人主页
 - 2019-10-25 添加点赞功能
 - 2019-10-25 修复图片上传访问时间太短的问题
+- 2020-10-18 添加前缀并修复github授权用户查询以及登陆请求超时问题
