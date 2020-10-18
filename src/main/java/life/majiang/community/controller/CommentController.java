@@ -67,8 +67,7 @@ public class CommentController {
         if (likeCreateDTO == null) {
             return ResultDTO.errorOf(CustomizeErrorCode.NOT_LIKE_COMMENT);
         }
-        ResultDTO resultDTO = commentService.like(likeCreateDTO, user);
-        return resultDTO;
+        return commentService.like(likeCreateDTO, user);
     }
 
     @ResponseBody
@@ -80,8 +79,8 @@ public class CommentController {
         if (user!=null){
             userId = user.getId();
         }
-        List<CommentDTO> commentDTOS = commentService.listByTargetId(id, CommentTypeEnum.COMMENT, userId);
-        return  ResultDTO.okOf(commentDTOS);
+        List<CommentDTO> commentDtos = commentService.listByTargetId(id, CommentTypeEnum.COMMENT, userId);
+        return  ResultDTO.okOf(commentDtos);
     }
 
 }

@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 /**
+ * @author saber-kings
  * @Auther:luanzhaofei@outlook.com
  * @Date:2019/9/19
  * @Description:life.majiang.community.controller
@@ -45,6 +46,7 @@ public class AuthorizeController {
     public String callback(@RequestParam(name = "code")String code,
                            @RequestParam(name = "state")String state,
                            HttpServletResponse response){
+        System.out.println("授权认证：code=" + code + ", state=" + state);
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);

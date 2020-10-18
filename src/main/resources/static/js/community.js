@@ -1,14 +1,28 @@
 /**
  * 点赞
  */
+//js获取项目根路径，如： http://localhost:8887/test
+function getRootPath() {
+    //获取当前网址，如： http://localhost:8887/test/index
+    var curWwwPath = window.document.location.href;
+    //获取主机地址之后的目录，如： /test/index
+    var pathName = window.document.location.pathname;
+    var pos = curWwwPath.indexOf(pathName);
+    //获取主机地址，如： http://localhost:8887
+    var localhostPaht = curWwwPath.substring(0, pos);
+    //获取带"/"的项目名，如：/test
+    var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+    return (localhostPaht + projectName);
+}
+
 function like(e) {
     var commentId = e.getAttribute("data-id");
     var status = e.getAttribute("data-status");
-    var subLike = $("#sub-like-"+commentId);
-    var spanLike = $("#span-like-"+commentId);
+    var subLike = $("#sub-like-" + commentId);
+    var spanLike = $("#span-like-" + commentId);
     $.ajax({
         type: "POST",
-        url: "/like",
+        url: getRootPath() + "/like",
         contentType: "application/json",
         data: JSON.stringify({
             "commentId": commentId,
@@ -19,9 +33,9 @@ function like(e) {
                 // var comment = jQuery.parseJSON(response);
                 var retStatus = response.data.likeStatus;
                 e.setAttribute("data-status", retStatus);
-                if (retStatus==1){
+                if (retStatus == 1) {
                     spanLike.addClass("active");
-                }else {
+                } else {
                     spanLike.removeClass("active");
                 }
                 console.log(response.data.likeCount);
@@ -32,11 +46,8 @@ function like(e) {
                     var isAccepted = confirm(response.message);
                     if (isAccepted) {
                         var clientId = e.getAttribute("client_id");
-                        window.open("https://github.com/login/oauth/authorize?client_id=" + clientId + "&redirect_uri=" + document.location.origin + "/callback&scope=user&state=1");
+                        window.location.href = "https://github.com/login/oauth/authorize?client_id=" + clientId + "&redirect_uri=" + getRootPath() + "/callback&scope=user&state=1";
                         window.localStorage.setItem("closable", true);
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 4000);
                     }
                 } else {
                     alert(response.message);
@@ -46,6 +57,7 @@ function like(e) {
         dataType: "json"
     });
 }
+
 /**
  * 提交回复
  */
@@ -63,7 +75,7 @@ function comment2target(targetId, type, content, clientId) {
     }
     $.ajax({
         type: "POST",
-        url: "/comment",
+        url: getRootPath() + "/comment",
         contentType: "application/json",
         data: JSON.stringify({
             "parentId": targetId,
@@ -77,12 +89,8 @@ function comment2target(targetId, type, content, clientId) {
                 if (response.code == 2003) {
                     var isAccepted = confirm(response.message);
                     if (isAccepted) {
-                        window.open("https://github.com/login/oauth/authorize?client_id="+clientId+"&redirect_uri=" + document.location.origin + "/callback&scope=user&state=1");
+                        window.location.href = "https://github.com/login/oauth/authorize?client_id=" + clientId + "&redirect_uri=" + getRootPath() + "/callback&scope=user&state=1";
                         window.localStorage.setItem("closable", true);
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 4000);
-
                     }
                 } else {
                     alert(response.message);
@@ -106,7 +114,7 @@ function comment(e) {
 function collapseComments(e) {
     var id = e.getAttribute("data-id");
     var comments = $("#comment-" + id);
-    var spanComment = $("#span-comment-"+id);
+    var spanComment = $("#span-comment-" + id);
     console.log(spanComment);
 
     //获取一下二级评论展开状态
@@ -125,7 +133,7 @@ function collapseComments(e) {
             e.setAttribute("data-collapse", "in");
             spanComment.addClass("active");
         } else {
-            $.getJSON("/comment/" + id, function (data) {
+            $.getJSON(getRootPath() + "/comment/" + id, function (data) {
                 console.log(data);
                 $.each(data.data.reverse(), function (index, comment) {
                     var mediaLeftElement = $("<div/>", {
@@ -180,24 +188,24 @@ function showSelectTag() {
 
 function selectTag(e) {
     //定义开关
-    var flag=true;
+    var flag = true;
     //页面输入的标签
-    var value=e.getAttribute("data-tag");
+    var value = e.getAttribute("data-tag");
     //输入框中的标签
-    var previous=$("#tag").val();
+    var previous = $("#tag").val();
     //将输入框中的标签按,分割得到标签数组
-    var psplits=previous.split(",");
+    var psplits = previous.split(",");
     //循环数组与输入的标签值进行比较
-    for(var i=0;i<psplits.length;i++){
-        if(psplits[i]==value){
-            flag=false;
+    for (var i = 0; i < psplits.length; i++) {
+        if (psplits[i] == value) {
+            flag = false;
         }
     }
     //如果没有重复元素的话,再添加
-    if(flag){
-        if(previous){
-            $("#tag").val(previous+','+value);
-        }else{
+    if (flag) {
+        if (previous) {
+            $("#tag").val(previous + ',' + value);
+        } else {
             $("#tag").val(value);
         }
     }

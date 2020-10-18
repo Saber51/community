@@ -21,7 +21,7 @@
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"
          th:if="${#lists.size(#httpServletRequest.getServletContext().getAttribute('SIDE')) == 0}">
-        <img class="img-thumbnail" src="/images/AdSpaceRent.png" th:alt="广告位出租">
+        <img class="img-thumbnail" src="/community/images/AdSpaceRent.png" th:src="@{/images/AdSpaceRent.png}" th:alt="广告位出租">
     </div>
 </div>
 </body>

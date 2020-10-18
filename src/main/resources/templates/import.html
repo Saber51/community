@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head">
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="/css/community.css">
-    <link rel="icon" href="/images/logo.png" style="border-radius: 5px;" type="image/x-icon"/>
-    <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
-    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
-    <script src="/js/community.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/community/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="/community/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}" />
+    <link rel="stylesheet" href="/community/css/community.css" th:href="@{/css/community.css}" />
+    <link rel="icon" href="/community/images/logo.png" style="border-radius: 5px;" type="image/x-icon" th:href="@{/images/logo.png}" />
+    <script src="/community/js/jquery-3.4.1.min.js" type="application/javascript" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    <script src="/community/js/bootstrap.min.js" type="application/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="/community/js/community.js" type="application/javascript" th:src="@{/js/community.js}"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta content="码农之家" name="keywords">
@@ -46,22 +46,22 @@
     </script>
 </head>
 <head th:fragment="markdown">
-    <link rel="stylesheet" href="/css/editormd.min.css">
-    <link rel="stylesheet" href="/css/editormd.preview.min.css">
-    <script src="/js/editormd.min.js" type="application/javascript"></script>
-    <script src="/js/moment.js" type="application/javascript"></script>
-    <script src="/js/lib/marked.min.js" type="application/javascript"></script>
-    <script src="/js/lib/prettify.min.js" type="application/javascript"></script>
-    <script src="/js/lib/raphael.min.js" type="application/javascript"></script>
-    <script src="/js/lib/underscore.min.js" type="application/javascript"></script>
-    <script src="/js/lib/sequence-diagram.min.js" type="application/javascript"></script>
-    <script src="/js/lib/flowchart.min.js" type="application/javascript"></script>
-    <script src="/js/lib/jquery.flowchart.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/community/css/editormd.min.css" th:href="@{/css/editormd.min.css}" />
+    <link rel="stylesheet" href="/community/css/editormd.preview.min.css" th:href="@{/css/editormd.preview.min.css}" />
+    <script src="/community/js/editormd.min.js" type="application/javascript" th:src="@{/js/editormd.min.js}"></script>
+    <script src="/community/js/moment.js" type="application/javascript" th:src="@{/js/moment.js}"></script>
+    <script src="/community/js/lib/marked.min.js" type="application/javascript" th:src="@{/js/lib/marked.min.js}"></script>
+    <script src="/community/js/lib/prettify.min.js" type="application/javascript" th:src="@{/js/lib/prettify.min.js}"></script>
+    <script src="/community/js/lib/raphael.min.js" type="application/javascript" th:src="@{/js/lib/raphael.min.js}"></script>
+    <script src="/community/js/lib/underscore.min.js" type="application/javascript" th:src="@{/js/lib/underscore.min.js}"></script>
+    <script src="/community/js/lib/sequence-diagram.min.js" type="application/javascript" th:src="@{/js/lib/sequence-diagram.min.js}"></script>
+    <script src="/community/js/lib/flowchart.min.js" type="application/javascript" th:src="@{/js/lib/flowchart.min.js}"></script>
+    <script src="/community/js/lib/jquery.flowchart.min.js" type="application/javascript" th:src="@{/js/lib//jquery.flowchart.min.js}"></script>
 </head>
 <head th:fragment="select">
-    <link rel="stylesheet" href="/css/bootstrap-datepicker3.min.css">
-    <script src="/js/bootstrap-datepicker.min.js" type="application/javascript"></script>
-    <script src="/js/locales/bootstrap-datepicker.zh-CN.min.js" type="application/javascript"></script>
-    <script src="/js/distpicker.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/community/css/bootstrap-datepicker3.min.css" th:src="@{/css/bootstrap-datepicker3.min.css}">
+    <script src="/community/js/bootstrap-datepicker.min.js" type="application/javascript" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <script src="/community/js/locales/bootstrap-datepicker.zh-CN.min.js" type="application/javascript" th:src="@{/js/locales/bootstrap-datepicker.zh-CN.min.js}"></script>
+    <script src="/community/js/distpicker.min.js" type="application/javascript" th:src="@{/js/distpicker.min.js}"></script>
 </head>
 </html>

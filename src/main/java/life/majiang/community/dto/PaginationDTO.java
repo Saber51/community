@@ -43,7 +43,7 @@ public class PaginationDTO<T> {
             showPrevious = true;
         }
         // 是否展示下一页
-        if (page == totalPage) {
+        if (page.equals(totalPage)) {
             showNext = false;
         } else {
             showNext = true;

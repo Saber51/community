@@ -85,9 +85,9 @@
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="list-group section">
-                <a href="/profile/questions"
+                <a href="/community/profile/questions" th:href="@{/profile/questions}"
                    th:class="${section == 'questions'}? 'list-group-item active' : 'list-group-item'">我的问题</a>
-                <a href="/profile/replies"
+                <a href="/community/profile/replies" th:href="@{/profile/replies}"
                    th:class="${section == 'replies'}? 'list-group-item active' : 'list-group-item'">
                     最新回复
                     <span class="badge" th:text="${session.unreadCount}"></span>
@@ -135,7 +135,7 @@
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
-                            <form action="/upUser" method="post">
+                            <form action="/community/upUser" th:action="@{/upUser}" method="post">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                             aria-hidden="true">&times;</span></button>
